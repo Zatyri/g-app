@@ -1,55 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "../queries";
+
 import { Formik } from "formik";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import {
   Form,
   Button,
   Icon,
   Segment,
-  Grid,  
+  Grid,
   Header,
-  Label
+  Label,
 } from "semantic-ui-react";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
-  .min(4, 'Käyttäjänimi liian lyhyt')
-  .max(15, 'Käyttäjänimi liian pitkä')
-  .required('Käyttäjänimi puuttuu'),
+    .min(4, "Käyttäjänimi liian lyhyt")
+    .max(15, "Käyttäjänimi liian pitkä")
+    .required("Käyttäjänimi puuttuu"),
   password: Yup.string()
-  .min(8, 'Salasana liian lyhyt')
-  .required('Salasana puuttuu')
-})
+    .min(8, "Salasana liian lyhyt")
+    .required("Salasana puuttuu"),
+});
 
-const Login = () => {
+const Login = ({ setToken }) => {
+  const [login ] = useMutation(LOGIN);
+  const [invalidAuth, setInvalidAuth] = useState(false);
+
+  const signUserIn = async ({ username, password }) => {
+    try {
+      const {data} = await login({variables: {username: username, password: password}});
+      setToken(data.login.value);
+      setInvalidAuth(false);  
+    } catch (error) {      
+      setInvalidAuth(true)
+    }
+  
+  };
+
   return (
     <Segment placeholder>
       <Grid columns={1} relaxed="very" stackable>
         <Grid.Column>
           <div className="form">
-            <Header as="h1">Login</Header>
+            <Header as="h1">Kirjaudu</Header>
             <Formik
               initialValues={{ username: "", password: "" }}
               validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
-                alert(JSON.stringify(values));
+                signUserIn(values);
                 setSubmitting(false);
               }}
             >
               {(props) => (
-                <Form onSubmit={props.handleSubmit}>                  
-                    <Form.Input
-                      type="text"
-                      onChange={props.handleChange}
-                      value={props.values.username}
-                      name="username"
-                      icon="user"
-                      iconPosition="left"
-                      label="Käyttäjänimi"
-                      placeholder="käyttäjänimi"
-                    />
-                    {props.errors.username && <Label pointing color='yellow'>{props.errors.username}</Label>}
-                  
+                <Form onSubmit={props.handleSubmit}>
+                  <Form.Input
+                    type="text"
+                    onChange={props.handleChange}
+                    value={props.values.username}
+                    name="username"
+                    icon="user"
+                    iconPosition="left"
+                    label="Käyttäjänimi"
+                    placeholder="käyttäjänimi"
+                  />
+                  {props.errors.username && (
+                    <Label pointing color="yellow">
+                      {props.errors.username}
+                    </Label>
+                  )}
+
                   <Form.Input
                     type="password"
                     onChange={props.handleChange}
@@ -60,7 +81,11 @@ const Login = () => {
                     label="Salasana"
                     placeholder="salasana"
                   />
-                  {props.errors.password && <Label pointing color='yellow'>{props.errors.password}</Label>}
+                  {props.errors.password && (
+                    <Label pointing color="yellow">
+                      {props.errors.password}
+                    </Label>
+                  )}
                   <Button
                     animated
                     type="submit"
@@ -72,14 +97,13 @@ const Login = () => {
                       <Icon name="arrow right" />
                     </Button.Content>
                   </Button>
+                  {invalidAuth && <Label pointing color='red'>Väärä käyttäjänimi tai salasana</Label>}
                 </Form>
               )}
             </Formik>
           </div>
         </Grid.Column>
-        
       </Grid>
-      
     </Segment>
   );
 };
