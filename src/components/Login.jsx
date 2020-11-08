@@ -25,18 +25,21 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = ({ setToken }) => {
-  const [login ] = useMutation(LOGIN);
+  const [login] = useMutation(LOGIN);
   const [invalidAuth, setInvalidAuth] = useState(false);
 
   const signUserIn = async ({ username, password }) => {
     try {
-      const {data} = await login({variables: {username: username, password: password}});
+      const { data } = await login({
+        variables: { username: username, password: password },
+      });
       setToken(data.login.value);
-      setInvalidAuth(false);  
-    } catch (error) {      
-      setInvalidAuth(true)
+      localStorage.setItem("g-app-user-token", data.login.value); // change this to more secure placement on production
+      //remember to change index.js also!
+      setInvalidAuth(false);
+    } catch (error) {
+      setInvalidAuth(true);
     }
-  
   };
 
   return (
@@ -66,11 +69,10 @@ const Login = ({ setToken }) => {
                     placeholder="käyttäjänimi"
                   />
                   {props.errors.username && (
-                    <Label pointing color="yellow">
+                    <Label className='errorMessage' pointing color="yellow">
                       {props.errors.username}
                     </Label>
                   )}
-
                   <Form.Input
                     type="password"
                     onChange={props.handleChange}
@@ -82,7 +84,7 @@ const Login = ({ setToken }) => {
                     placeholder="salasana"
                   />
                   {props.errors.password && (
-                    <Label pointing color="yellow">
+                    <Label className='errorMessage' pointing color="yellow">
                       {props.errors.password}
                     </Label>
                   )}
@@ -91,13 +93,18 @@ const Login = ({ setToken }) => {
                     type="submit"
                     disabled={props.isSubmitting}
                     color="green"
+                    style={{margin: "4px"}}
                   >
                     <Button.Content visible>Kirjaudu</Button.Content>
                     <Button.Content hidden>
                       <Icon name="arrow right" />
                     </Button.Content>
                   </Button>
-                  {invalidAuth && <Label pointing color='red'>Väärä käyttäjänimi tai salasana</Label>}
+                  {invalidAuth && (
+                    <Label color="red">
+                      Väärä käyttäjänimi tai salasana
+                    </Label>
+                  )}
                 </Form>
               )}
             </Formik>

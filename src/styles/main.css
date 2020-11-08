@@ -24,3 +24,7 @@ body {
   flex: 1;
   flex-direction: row;
 }
+
+.errorMessage {
+  margin-top: 0 !important;  
+}
