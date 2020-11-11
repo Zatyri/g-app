@@ -28,3 +28,13 @@ body {
 .errorMessage {
   margin-top: 0 !important;  
 }
+
+.tableContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10%;
+  margin-right: 10%;
+}
