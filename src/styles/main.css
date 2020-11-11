@@ -35,6 +35,10 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.icon {
+  margin: 0 !important;
 }

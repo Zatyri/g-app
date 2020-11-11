@@ -8,25 +8,26 @@ const AddUserModal = () => {
   const [open, setOpen] = useState(false);
   const [addUser] = useMutation(ADD_USER);
 
-  const handleAddUser = async ({ name, username, store, type, password }) => {    
+  const handleAddUser = async ({ name, username, store, type, password }) => {
     try {
-      const addeduser = await addUser({
+      await addUser({
         variables: { name, username, store, type, password },
-        update: (cache, { data }) => {          
+        update: (cache, { data }) => {
           cache.modify({
             fields: {
               allUsers: (existingFieldData) => {
-                const newFieldData = [...existingFieldData, data.addUser] 
+                const newFieldData = [...existingFieldData, data.addUser];
                 return newFieldData;
               },
             },
           });
         },
-      });      
-      console.log(addeduser);
+      });
+
       setOpen(false);
     } catch (error) {
-      console.log(error);
+      window.alert(error.message);
+      setOpen(false);
     }
   };
 

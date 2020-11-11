@@ -1,15 +1,16 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 import { Button, Header, Icon, Placeholder, Table } from 'semantic-ui-react';
-import { ALL_USERS, DELETE_USER } from '../../queries';
+import { ALL_USERS, DELETE_USER, ME } from '../../queries';
 import AddUserModal from './AddUserModal';
 import EditUserModal from './EditUserModal';
 
 const UserView = () => {
   const { data, error, loading } = useQuery(ALL_USERS);
+  const user = useQuery(ME);
   const [deleteUser] = useMutation(DELETE_USER);
 
-  if (loading) {
+  if (loading || user.loading) {
     return (
       <Placeholder className="tableContainer">
         <Placeholder.Line />
@@ -20,18 +21,25 @@ const UserView = () => {
       </Placeholder>
     );
   }
-  if (error) {
+  if (error || user.error) {
     return <div>Virhe</div>;
   }
 
-  const handleDeleteUser = async (_, { id, name }) => {
+  let allUsers = data.allUsers;
+  if (user.data.me.type !== 'admin') {
+    allUsers = data.allUsers.filter(
+      (userRef) => user.data.me.store === userRef.store
+    );
+  }
+
+  const handleDeleteUser = async (_, { id, name, store }) => {
     const confirm = window.confirm(`Poistetaanko käyttäjä: ${name}?`);
     if (!confirm) {
       return null;
     }
     try {
       await deleteUser({
-        variables: { id: id },
+        variables: { id: id, store: store },
         update: (cache, { data }) => {
           const cacheId = cache.identify(data.deleteUser);
           cache.modify({
@@ -47,7 +55,7 @@ const UserView = () => {
         },
       });
     } catch (error) {
-      console.log(error);
+      window.alert(error.message);
     }
   };
 
@@ -65,19 +73,20 @@ const UserView = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {data.allUsers.map((user) => (
+          {allUsers.map((user) => (
             <Table.Row key={user.id}>
               <Table.Cell>{user.name}</Table.Cell>
               <Table.Cell>{user.username}</Table.Cell>
               <Table.Cell>{user.type}</Table.Cell>
               <Table.Cell>{user.store}</Table.Cell>
               <Table.Cell>
-                <EditUserModal user={user}/>
-    
+                <EditUserModal user={user} />
+
                 {!(user.type === 'admin') && (
                   <Button
                     id={user.id}
                     name={user.name}
+                    store={user.store}
                     onClick={handleDeleteUser}
                     color="red"
                   >
@@ -88,7 +97,7 @@ const UserView = () => {
             </Table.Row>
           ))}
         </Table.Body>
-      </Table>      
+      </Table>
       <AddUserModal />
     </div>
   );

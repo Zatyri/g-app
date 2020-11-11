@@ -13,7 +13,7 @@ import SubscriptMain from "./components/subscriptions/SubscriptMain";
 import AdminMain from "./components/admin/AdminMain";
 
 const App = () => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(null);  
   const [activePage, setActivePage] = useState("Puheliittymät");
   const client = useApolloClient();
 
@@ -38,7 +38,7 @@ const App = () => {
 
   return (
     <>
-      <Navbar activePage={activePage} setActivePage={setActivePage} logout={logout}/>
+      {token && <Navbar activePage={activePage} setActivePage={setActivePage} logout={logout}/>}
       <Switch>
         <Route path='/puheliittymat'>
             <SubscriptMain />

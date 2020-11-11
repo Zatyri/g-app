@@ -12,6 +12,15 @@ export const ALL_USERS = gql`
   }
 `;
 
+export const ME = gql`
+  query {
+    me {
+      type
+      store
+    }
+  }
+`;
+
 export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
@@ -21,8 +30,20 @@ export const LOGIN = gql`
 `;
 
 export const ADD_USER = gql`
-  mutation addUser($name: String!, $username: String!, $type: String!, $store: Int!, $password: String!){
-    addUser(name: $name, username: $username, type: $type, store: $store, password: $password){
+  mutation addUser(
+    $name: String!
+    $username: String!
+    $type: String!
+    $store: Int!
+    $password: String!
+  ) {
+    addUser(
+      name: $name
+      username: $username
+      type: $type
+      store: $store
+      password: $password
+    ) {
       id
       name
       type
@@ -30,11 +51,11 @@ export const ADD_USER = gql`
       username
     }
   }
-`
+`;
 
 export const UPDATE_USER = gql`
-  mutation updateUser($id: ID!, $name: String!, $type: String!, $store: Int!){
-    updateUser(id: $id, name: $name, type: $type, store: $store){
+  mutation updateUser($id: ID!, $name: String!, $type: String!, $store: Int!) {
+    updateUser(id: $id, name: $name, type: $type, store: $store) {
       id
       name
       type
@@ -42,11 +63,11 @@ export const UPDATE_USER = gql`
       username
     }
   }
-`
+`;
 
 export const DELETE_USER = gql`
-  mutation deleteUser($id: ID!) {
-    deleteUser(id: $id) {
+  mutation deleteUser($id: ID!, $store: Int!) {
+    deleteUser(id: $id, store: $store) {
       id
       name
     }

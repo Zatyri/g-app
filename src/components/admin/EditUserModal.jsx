@@ -9,15 +9,21 @@ const EditUserModal = (props) => {
 
   const [updateUser] = useMutation(UPDATE_USER);
 
-  const handleUpdateUser = (values) => {
-    updateUser({
-      variables: {
-        id: values.id,
-        name: values.name,
-        type: values.type,
-        store: values.store,
-      },
-    });
+  const handleUpdateUser = async (values) => {
+    try {
+      await updateUser({
+        variables: {
+          id: values.id,
+          name: values.name,
+          type: values.type,
+          store: values.store,
+        },
+      });
+    } catch (error) {
+      window.alert(error.message)
+      setOpen(false);
+    }
+ 
   };
 
   return (

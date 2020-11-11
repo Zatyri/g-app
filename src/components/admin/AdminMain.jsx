@@ -1,10 +1,24 @@
+import { useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { Menu } from 'semantic-ui-react';
+import { ME } from '../../queries';
 import NavButton from '../navbar/NavButton';
 import UserView from './UserView';
 
 const AdminMain = () => {
   const [view, setView] = useState('tarjous');
+  const {data, loading, error} = useQuery(ME);  
+
+  if(loading){
+    return null
+  }
+  if(error){
+    return <div>error</div>
+  }
+  if(data.me.type === 'store'){
+    return null
+  }
+ 
 
   const showView = () => {
     switch (view) {
