@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
-import { ADD_USER } from '../../queries';
+import { ADD_USER } from '../../../queries';
 import AddUserForm from './AddUserForm';
 
 const AddUserModal = () => {

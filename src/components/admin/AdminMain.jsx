@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Menu } from 'semantic-ui-react';
 import { ME } from '../../queries';
 import NavButton from '../navbar/NavButton';
-import UserView from './UserView';
+import SubscriptionView from './subscriptions/SubscriptionView';
+import UserView from './user/UserView';
 
 const AdminMain = () => {
   const [view, setView] = useState('tarjous');
@@ -26,8 +27,8 @@ const AdminMain = () => {
         return <div>tarjous</div>;
       case 'kayttaja':
         return <UserView/>;
-      case 'lisaaLiittyma':
-        return <div>lisaaLiittyma</div>;
+      case 'liittyma':
+        return <SubscriptionView/>
       default:
         return undefined;
     }
@@ -43,8 +44,8 @@ const AdminMain = () => {
         <Menu.Menu position="right">
           <NavButton
             link="/admin"
-            name="lisaaLiittyma"
-            text="Lisää liittymä"
+            name="liittyma"
+            text="Liittymähallinta"
             handleClick={handleClick}
           />
           <NavButton

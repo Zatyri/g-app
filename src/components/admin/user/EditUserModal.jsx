@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { Modal, Button, Icon } from 'semantic-ui-react';
-import { UPDATE_USER } from '../../queries';
+import { UPDATE_USER } from '../../../queries';
 import UserForm from './UserForm';
 
 const EditUserModal = (props) => {
