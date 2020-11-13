@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { LOGIN } from "../queries";
+import { LOGIN } from "../queries/user";
 
 import { Formik } from "formik";
 import * as Yup from "yup";

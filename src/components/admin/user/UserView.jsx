@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 import { Button, Header, Icon, Placeholder, Table } from 'semantic-ui-react';
-import { ALL_USERS, DELETE_USER, ME } from '../../../queries';
+import { ALL_USERS, DELETE_USER, ME } from '../../../queries/user';
 import AddUserModal from './AddUserModal';
 import EditUserModal from './EditUserModal';
 

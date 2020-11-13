@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { Menu } from 'semantic-ui-react';
-import { ME } from '../../queries';
+import { ME } from '../../queries/user';
 import NavButton from './NavButton';
 
 const Navbar = ({ activePage, setActivePage, logout }) => {

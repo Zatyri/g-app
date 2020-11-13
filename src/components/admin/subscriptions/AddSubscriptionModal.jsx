@@ -14,7 +14,7 @@ const AddSubscriptionModal = () => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button>Show Modal</Button>}
+      trigger={<Button>Lisää liittymä</Button>}
     >
       <Modal.Header>Lisää liittymä</Modal.Header>
       <Modal.Content>

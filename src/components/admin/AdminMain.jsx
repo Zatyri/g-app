@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { Menu } from 'semantic-ui-react';
-import { ME } from '../../queries';
+import { ME } from '../../queries/user';
 import NavButton from '../navbar/NavButton';
 import SubscriptionView from './subscriptions/SubscriptionView';
 import UserView from './user/UserView';
