@@ -11,8 +11,28 @@ export const ALL_SUBSCRIPTIONS = gql`
 `;
 
 export const ADD_SUBSCRIPTION = gql`
-  mutation addSubscription($id: ID!, $operator: String!, $name: String!, $talk: String!, $sms: String!, $speed: Number!, $unlimited: Boolean!, $eu: Number!, $active: Boolean!, $price: String!   ){
-    addSubscription(id: $id, operator: $operator, name: $name, talk: $talk, sms: $sms, speed: $speed, unlimited: $unlimited, eu: $eu, active: $active, price: $price){
+  mutation addSubscription(    
+    $operator: String!
+    $name: String!
+    $talk: String!
+    $sms: String!
+    $speed: Int!
+    $unlimited: Boolean!
+    $eu: Int!
+    $active: Boolean!
+    $price: String!
+  ) {
+    addSubscription(      
+      operator: $operator
+      name: $name
+      talk: $talk
+      sms: $sms
+      speed: $speed
+      unlimited: $unlimited
+      eu: $eu
+      active: $active
+      price: $price
+    ) {
       ...SubscriptionInfo
     }
   }

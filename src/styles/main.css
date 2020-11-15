@@ -42,3 +42,19 @@ body {
 .icon {
   margin: 0 !important;
 }
+
+.radioLabelGroup {  
+  flex-direction: column !important;
+  align-items: center !important;  
+  padding: 0 1em 0 1em !important;
+  margin-bottom: 0 !important;
+}
+
+td {
+  text-align: center !important;
+}
+
+.operatorLogoContainer {
+  display: flex;
+  justify-content: center;
+}

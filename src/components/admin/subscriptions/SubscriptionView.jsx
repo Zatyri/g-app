@@ -5,6 +5,7 @@ import {
   Dropdown,
   Header,
   Icon,
+  Image,
   Placeholder,
   Table,
 } from 'semantic-ui-react';
@@ -14,6 +15,10 @@ import {
   DELETE_SUBSCRIPTION,
 } from '../../../queries/subscription';
 import AddSubscriptionModal from './AddSubscriptionModal';
+import dnaLogo from '../../../media/logos/DNA_48px.png'
+import elisaLogo from '../../../media/logos/Elisa_48px.png'
+import teliaLogo from '../../../media/logos/Telia_48px.png'
+
 
 const showIcon = (value) => {
   if (typeof value !== 'boolean') {
@@ -32,6 +37,19 @@ const sortingFunction = (sortBy) => {
       return (a, b) => (a.name > b.name ? 1 : -1);
     default:
       return (a, b) => (a.operator.name > b.operator.name ? 1 : -1);
+  }
+};
+
+const logoDisplay = (operator) => {
+  switch (operator) {
+    case 'Dna':
+      return <Image src={dnaLogo} alt="DNA" />;
+    case 'Telia':
+      return <Image src={teliaLogo} alt="Telia" />;
+    case 'Elisa':
+      return <Image src={elisaLogo} alt="Elisa" />;
+    default:
+      return null;
   }
 };
 
@@ -145,7 +163,7 @@ const SubscriptionView = () => {
         <Table.Body>
           {allSubscriptions.map((subRef) => (
             <Table.Row key={subRef.id}>
-              <Table.Cell>{subRef.operator.name}</Table.Cell>
+              <Table.Cell className='operatorLogoContainer'>{logoDisplay(subRef.operator.name)}</Table.Cell>
               <Table.Cell>{subRef.name}</Table.Cell>
               <Table.Cell>{subRef.talk}</Table.Cell>
               <Table.Cell>{subRef.sms}</Table.Cell>
