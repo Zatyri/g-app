@@ -1,35 +1,15 @@
 import { useQuery, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
-import {
-  Button,
-  Dropdown,
-  Header,
-  Icon,
-  Image,
-  Placeholder,
-  Table,
-} from 'semantic-ui-react';
+import { Button, Dropdown, Header, Icon, Table } from 'semantic-ui-react';
 import {
   ALL_OPERATORS,
   ALL_SUBSCRIPTIONS,
   DELETE_SUBSCRIPTION,
 } from '../../../queries/subscription';
+import { XorVIcon, Loading, ErrorMessage } from '../../utils/FormHelpers';
+import { OperatorLogo } from '../../utils/OperatorLogo';
 import AddSubscriptionModal from './AddSubscriptionModal';
-import dnaLogo from '../../../media/logos/DNA_48px.png'
-import elisaLogo from '../../../media/logos/Elisa_48px.png'
-import teliaLogo from '../../../media/logos/Telia_48px.png'
-
-
-const showIcon = (value) => {
-  if (typeof value !== 'boolean') {
-    return null;
-  }
-  return value ? (
-    <Icon name="check circle" color="green" />
-  ) : (
-    <Icon name="x" color="red" />
-  );
-};
+import EditSubscriptionModal from './EditSubscriptionModal';
 
 const sortingFunction = (sortBy) => {
   switch (sortBy) {
@@ -37,19 +17,6 @@ const sortingFunction = (sortBy) => {
       return (a, b) => (a.name > b.name ? 1 : -1);
     default:
       return (a, b) => (a.operator.name > b.operator.name ? 1 : -1);
-  }
-};
-
-const logoDisplay = (operator) => {
-  switch (operator) {
-    case 'Dna':
-      return <Image src={dnaLogo} alt="DNA" />;
-    case 'Telia':
-      return <Image src={teliaLogo} alt="Telia" />;
-    case 'Elisa':
-      return <Image src={elisaLogo} alt="Elisa" />;
-    default:
-      return null;
   }
 };
 
@@ -65,18 +32,10 @@ const SubscriptionView = () => {
   const [filterOperator, setFilterOperator] = useState();
 
   if (subLoading || opLoading) {
-    return (
-      <Placeholder className="tableContainer">
-        <Placeholder.Line />
-        <Placeholder.Line />
-        <Placeholder.Line />
-        <Placeholder.Line />
-        <Placeholder.Line />
-      </Placeholder>
-    );
+    return <Loading />;
   }
   if (subError || opError) {
-    return <div>Virhe</div>;
+    return <ErrorMessage error={subError} />;
   }
 
   const handleDelete = async (_, { id, name }) => {
@@ -163,18 +122,24 @@ const SubscriptionView = () => {
         <Table.Body>
           {allSubscriptions.map((subRef) => (
             <Table.Row key={subRef.id}>
-              <Table.Cell className='operatorLogoContainer'>{logoDisplay(subRef.operator.name)}</Table.Cell>
+              <Table.Cell className="operatorLogoContainer">
+                <OperatorLogo operator={subRef.operator.name} />{' '}
+              </Table.Cell>
               <Table.Cell>{subRef.name}</Table.Cell>
               <Table.Cell>{subRef.talk}</Table.Cell>
               <Table.Cell>{subRef.sms}</Table.Cell>
               <Table.Cell>{subRef.speed}</Table.Cell>
-              <Table.Cell>{showIcon(subRef.unlimited)}</Table.Cell>
+              <Table.Cell>
+                <XorVIcon value={subRef.unlimited} />
+              </Table.Cell>
               <Table.Cell>{subRef.eu}</Table.Cell>
-              <Table.Cell>{showIcon(subRef.active)}</Table.Cell>
+              <Table.Cell>
+                <XorVIcon value={subRef.active} />
+              </Table.Cell>
               <Table.Cell>{subRef.equivelentSub.name}</Table.Cell>
               <Table.Cell>{subRef.price}</Table.Cell>
               <Table.Cell>
-                <Button>placeholder</Button>
+                <EditSubscriptionModal subRef={subRef}/>
                 <Button
                   id={subRef.id}
                   name={subRef.name}

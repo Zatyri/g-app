@@ -39,6 +39,11 @@ body {
   margin-right: 30%;
 }
 
+.placeholderContainer {
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
 .icon {
   margin: 0 !important;
 }

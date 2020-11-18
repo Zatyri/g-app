@@ -4,6 +4,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { Form, Button, Header, Label, Radio } from 'semantic-ui-react';
 import { ALL_OPERATORS } from '../../../queries/subscription';
+import { OperatorLogo } from '../../utils/OperatorLogo';
 
 const validationSchema = new Yup.object().shape({
   name: Yup.string().min(4, 'Liian lyhyt nimi').required('Nimi puuttuu'),
@@ -32,11 +33,12 @@ const AddSubscriptionForm = ({
         <Header as="h2">Valitse operaattori</Header>
         {operators.data.allOperators.map((opRef) => (
           <Button
+            style={{backgroundColor: 'white'}}
             key={opRef.id}
             value={opRef.id}
             onClick={() => setSelectedOperator(opRef.id)}
           >
-            {opRef.name}
+            <OperatorLogo operator={opRef.name} />
           </Button>
         ))}
       </>
@@ -97,12 +99,12 @@ const AddSubscriptionForm = ({
     >
       {(props) => (
         <Form onSubmit={props.handleSubmit} id="addSubscription">
-          <Header as="h3">
-            {
+          <Header>
+            <OperatorLogo operator={
               operators.data.allOperators.find(
                 (opRef) => opRef.id === selectedOperator
               ).name
-            }
+            } />         
           </Header>
           <Form.Group>
             <div>

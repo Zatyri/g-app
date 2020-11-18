@@ -39,6 +39,37 @@ export const ADD_SUBSCRIPTION = gql`
   ${SUBSCRIPTION_INFO}
 `;
 
+export const EDIT_SUBSCRIPTION = gql`
+  mutation modifiSubscription(  
+    $id: ID! 
+    
+    $name: String
+    $talk: String
+    $sms: String
+    $speed: Int
+    $unlimited: Boolean
+    $eu: Int
+    $active: Boolean
+    $price: String
+  ) {
+    modifySubscription(     
+      id: $id
+      
+      name: $name
+      talk: $talk
+      sms: $sms
+      speed: $speed
+      unlimited: $unlimited
+      eu: $eu
+      active: $active
+      price: $price
+    ) {
+      ...SubscriptionInfo
+    }
+  }
+  ${SUBSCRIPTION_INFO}
+`;
+
 export const DELETE_SUBSCRIPTION = gql`
   mutation deleteSubscription($id: ID!) {
     deleteSubscription(id: $id) {
