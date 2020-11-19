@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Menu } from 'semantic-ui-react';
 import { ME } from '../../queries/user';
 import NavButton from '../navbar/NavButton';
+import OfferView from './offer/OfferView';
 import SubscriptionView from './subscriptions/SubscriptionView';
 import UserView from './user/UserView';
 
@@ -24,7 +25,7 @@ const AdminMain = () => {
   const showView = () => {
     switch (view) {
       case 'tarjous':
-        return <div>tarjous</div>;
+        return <OfferView />;
       case 'kayttaja':
         return <UserView/>;
       case 'liittyma':

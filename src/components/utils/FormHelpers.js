@@ -63,7 +63,7 @@ export const ErrorMessage = ({ error }) => {
   return <div>Virhe</div>;
 };
 
-const inputError = (field) => {
+export const inputError = (field) => {
   return (
     <Label pointing color="yellow">
       {field}
@@ -80,9 +80,9 @@ export const FormInput = ({
   value,
   error,
   touched,
-  disabled
-}) => { 
-
+  disabled,
+  placeholder,
+}) => {
   return (
     <Form.Field>
       <Form.Field label={label}></Form.Field>
@@ -93,18 +93,20 @@ export const FormInput = ({
         onChange={onChange}
         onBlur={onBlur}
         value={value}
+        placeholder={placeholder}
       />
       {touched && error ? inputError(error) : null}
     </Form.Field>
   );
 };
 
-export const FormRadio = ({ label, id, name, checked, onChange }) => {
+export const FormRadio = ({ label, id, name, checked, onChange, disabled }) => {
   return (
     <Form.Input>
       <Form.Group className="radioLabelGroup">
         <Form.Field label={label}></Form.Field>
         <Radio
+          disabled={disabled}
           id={id}
           type="checkbox"
           toggle

@@ -14,7 +14,7 @@ import EditSubscriptionModal from './EditSubscriptionModal';
 const sortingFunction = (sortBy) => {
   switch (sortBy) {
     case 'name':
-      return (a, b) => (a.name > b.name ? 1 : -1);
+      return (a, b) => (a.name > b.name ? -1 : 1);
     default:
       return (a, b) => (a.operator.name > b.operator.name ? 1 : -1);
   }
@@ -73,9 +73,10 @@ const SubscriptionView = () => {
     ));
   //sorters
   allSubscriptions.sort(sortingFunction(sortFunction));
+  console.log(allSubscriptions[0].name);
 
   return (
-    <div>
+    <>
       <Header as="h2">Liittymähallinta</Header>
       <AddSubscriptionModal />
       <Table celled selectable>
@@ -153,7 +154,7 @@ const SubscriptionView = () => {
           ))}
         </Table.Body>
       </Table>
-    </div>
+    </>
   );
 };
 

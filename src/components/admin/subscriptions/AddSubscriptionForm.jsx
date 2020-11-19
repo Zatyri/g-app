@@ -83,6 +83,8 @@ const AddSubscriptionForm = ({
           values.sms = String(values.sms);
         }
         values.price = String(values.price);
+        values.speed = String(values.speed)
+        
 
         handleAddSubscription({
           operator: selectedOperator,
@@ -185,7 +187,7 @@ const AddSubscriptionForm = ({
           <Form.Group>
             <div>
               <Form.Input
-                type="number"
+                type="text"
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 name="speed"

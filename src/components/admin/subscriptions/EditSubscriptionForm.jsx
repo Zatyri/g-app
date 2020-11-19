@@ -37,7 +37,7 @@ const EditSubscriptionForm = ({ subRef, handleEditSub }) => {
           name: values.name,
           talk: values.talkUnlimited ? 'Rajaton' : String(values.talk),
           sms: values.smsUnlimited ? 'Rajaton' : String(values.sms),
-          speed: values.speed,
+          speed: String(values.speed),
           unlimited: values.unlimited,
           eu: values.eu,
           active: values.active,
