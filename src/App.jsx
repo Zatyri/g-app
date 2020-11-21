@@ -9,7 +9,7 @@ import "./styles/main.css";
 
 import Login from "./components/Login";
 import Navbar from "./components/navbar/Navbar";
-import SubscriptMain from "./components/subscriptions/SubscriptMain";
+import SubscriptionMain from "./components/subscriptions/SubscriptionMain";
 import AdminMain from "./components/admin/AdminMain";
 
 const App = () => {
@@ -41,7 +41,7 @@ const App = () => {
       {token && <Navbar activePage={activePage} setActivePage={setActivePage} logout={logout}/>}
       <Switch>
         <Route path='/puheliittymat'>
-            <SubscriptMain />
+            <SubscriptionMain />
         </Route>
         <Route path='/admin'>
             <AdminMain />

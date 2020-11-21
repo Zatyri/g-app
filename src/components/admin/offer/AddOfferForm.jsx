@@ -1,7 +1,7 @@
-import { Formik, useField } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import React, { useState } from 'react';
-import { Button, Form, Header, Label, Rating } from 'semantic-ui-react';
+import { Button, Form, Header, Label } from 'semantic-ui-react';
 import { useQuery } from '@apollo/client';
 import {
   ALL_ACTIVE_SUBSCRIPTIONS,
