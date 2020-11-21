@@ -94,6 +94,7 @@ export const FormInput = ({
         onBlur={onBlur}
         value={value}
         placeholder={placeholder}
+        step={type === 'number' && '.01'}
       />
       {touched && error ? inputError(error) : null}
     </Form.Field>

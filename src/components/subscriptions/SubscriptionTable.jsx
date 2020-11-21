@@ -1,50 +1,58 @@
 import React from 'react';
 import { XorVIcon } from '../utils/FormHelpers';
+import OfferCardRow from './OfferCardRow';
 
 const SubscriptionTable = ({ subRef }) => {
-  const featureLine = (feature, value, suffix) => {
-    let styles = {};
-    switch (feature) {
-      case 'Tarjous':
-        styles = { fontSize: '2.5em' };
-        break;
-      case 'Norm. hinta':
-        styles = { textDecoration: 'line-through', color: 'grey' };
-        break;
-      case 'Lahjakortti':
-        styles = { fontSize: '2.5em' };
-        break;
-      default:
-        break;
-    }
-
-    return (
-      <div className="offerCardLine">
-        <p>{feature}</p>
-        <span></span>
-        <p style={styles}>
-          {value}
-          <span className="small"> {suffix}</span>
-        </p>
-      </div>
-    );
-  };
 
   return (
     <div className="subscriptionDetailContainer">
       <div>
-        {featureLine('Puhe', subRef.talk, subRef.talk !== 'Rajaton' && 'min')}
-        {featureLine('Viestit', subRef.sms, subRef.sms !== 'Rajaton' && 'kpl')}
-        {featureLine('Nettinopeus', subRef.speed, 'Mbit/s')}
-        {featureLine('Rajaton netti', <XorVIcon value={subRef.unlimited} />)}
-        {featureLine('EU data', subRef.eu, 'Gt/kk')}
+        <OfferCardRow
+          feature="Puhe"
+          value={subRef.talk}
+          suffix={subRef.talk !== 'Rajaton' && 'min'}
+        />
+        <OfferCardRow
+          feature="Viestit"
+          value={subRef.sms}
+          suffix={subRef.sms !== 'Rajaton' && 'kpl'}
+        />
+        <OfferCardRow
+          feature="Nettinopeus"
+          value={subRef.speed}
+          suffix="Mbit/s"
+        />
+        <OfferCardRow
+          feature="Rajaton netti"
+          value={<XorVIcon value={subRef.unlimited} />}
+        />
+        <OfferCardRow feature="EU data" value={subRef.eu} suffix="Gt/kk" />
       </div>
       <div>
-        {featureLine('Tarjous', subRef.offer, '€/kk')}
-        {featureLine('Norm. hinta', subRef.price, '€/kk')}
-        {subRef.oneTimeDiscount ? featureLine('Lahjakortti', subRef.oneTimeDiscount, '€'): null}
-        {featureLine('Kesto', subRef.offerLength, `kk${subRef.bindingOffer ? '*': ''}`)}
-        {!subRef.bindingOffer && featureLine('Ei määräaikaa', <XorVIcon value={true} />)}
+        <OfferCardRow feature="Tarjous" value={subRef.offer} suffix="€/kk" />
+        <OfferCardRow
+          feature="Norm. hinta"
+          value={subRef.price}
+          suffix="€/kk"
+        />
+        {subRef.oneTimeDiscount ? (
+          <OfferCardRow
+            feature="Lahjakortti"
+            value={subRef.oneTimeDiscount}
+            suffix="€"
+          />
+        ) : null}
+        <OfferCardRow
+          feature="Pituus"
+          value={subRef.offerLength}
+          suffix={`kk${subRef.bindingOffer ? '*' : ''}`}
+        />
+        {!subRef.bindingOffer && (
+          <OfferCardRow
+            feature="Ei määräaikaa"
+            value={<XorVIcon value={true} />}
+          />
+        )}
       </div>
     </div>
   );
