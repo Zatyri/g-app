@@ -87,6 +87,7 @@ export const FormInput = ({
     <Form.Field>
       <Form.Field label={label}></Form.Field>
       <Input
+      fluid
         disabled={disabled}
         name={name}
         type={type}

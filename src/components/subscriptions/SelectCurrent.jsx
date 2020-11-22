@@ -15,7 +15,7 @@ const validationSchema = new Yup.object().shape({
   }),
 });
 
-const SelectCurrent = ({ operators, subscriptions }) => {
+const SelectCurrent = ({ operators, subscriptions, handleSelect }) => {
   const [selectedOperator, setSelectedOperator] = useState();
 
   return (
@@ -29,11 +29,10 @@ const SelectCurrent = ({ operators, subscriptions }) => {
             {operators.map((opRef) => (
               <Button
                 key={opRef.id}
-                onClick={() => setSelectedOperator(opRef.name)}
-                style={{ backgroundColor: 'white' }}
-                className={
-                  selectedOperator === opRef.name ? 'selectedOperator' : ''
-                }
+                onClick={() => setSelectedOperator(opRef.name)}                
+                className={`selectedOperatorButton 
+                  ${selectedOperator === opRef.name ? 'selectedOperatorButtonActive' : ''}
+                `}
               >
                 <OperatorLogo operator={opRef.name} />
               </Button>
@@ -48,7 +47,7 @@ const SelectCurrent = ({ operators, subscriptions }) => {
           }}
           validationSchema={validationSchema}
           onSubmit={(values) => {
-            console.log(values);
+            handleSelect(values.subscription, values.currentOffer)
           }}
         >
           {(props) => (

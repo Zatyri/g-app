@@ -8,13 +8,14 @@ import SubscriptionTable from './SubscriptionTable';
 const OfferModal = ({ subRef }) => {
   const [open, setOpen] = useState(false);
   const [comparison, setComparison] = useState(false);
+  
 
   return (
     <Modal
       onClose={() => setOpen(false)}
       onOpen={() => {
-        setOpen(true);
-        setComparison(false);
+        setOpen(true);        
+        setComparison(false)
       }}
       open={open}
       trigger={<OfferCard sub={subRef}></OfferCard>}
@@ -33,26 +34,31 @@ const OfferModal = ({ subRef }) => {
             </Modal.Description>
           </Modal.Content>
         </>
-      ) : <CompareOffer offerSub={subRef} />}
+      ) : (
+        <CompareOffer offerSub={subRef} />
+      )}
       <Modal.Actions>
         <Button color="black" onClick={() => setOpen(false)}>
           Sulje
         </Button>
-        {!comparison ? <Button
-          content="Vertailu"
-          labelPosition="right"
-          icon="checkmark"
-          onClick={() => setComparison(true)}
-          positive
-        />: <Button
-        type='submit'
-        form='currentSubscriptionForm'
-        content="Vertailuun"
-        labelPosition="right"
-        icon="checkmark"
-        
-        positive
-      />}
+        {!comparison ? (
+          <Button
+            content="Vertailu"
+            labelPosition="right"
+            icon="checkmark"
+            onClick={() => setComparison(true)}
+            positive
+          />
+        ) : (
+          <Button
+            type="submit"
+            form="currentSubscriptionForm"
+            content="Vertailuun"
+            labelPosition="right"
+            icon="checkmark"
+            positive
+          />
+        )}
       </Modal.Actions>
     </Modal>
   );
