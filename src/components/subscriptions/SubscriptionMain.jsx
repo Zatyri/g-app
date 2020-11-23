@@ -5,7 +5,7 @@ import { ALL_SUBSCRIPTIONS_WITH_OFFER } from '../../queries/subscription';
 import { ErrorMessage, Loading } from '../utils/FormHelpers';
 import OfferModal from './OfferModal';
 
-const SubscriptMain = () => {
+const SubscriptMain = ({handleShoppingCart}) => {
   const { data, loading, error } = useQuery(ALL_SUBSCRIPTIONS_WITH_OFFER);
 
   if (loading) {
@@ -23,7 +23,7 @@ const SubscriptMain = () => {
   return (
     <div className="offerContainer">
       {subscriptions.map((subRef) => (
-        <OfferModal key={subRef.id} subRef={subRef} />
+        <OfferModal key={subRef.id} subRef={subRef} handleShoppingCart={handleShoppingCart}/>
       ))}
     </div>
   );

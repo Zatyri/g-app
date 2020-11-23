@@ -15,13 +15,21 @@ const validationSchema = new Yup.object().shape({
   }),
 });
 
-const SelectCurrent = ({ operators, subscriptions, handleSelect }) => {
+const SelectCurrent = ({
+  operators,
+  subscriptions,
+  handleSelect,
+  handleClose,
+}) => {
   const [selectedOperator, setSelectedOperator] = useState();
 
   return (
     <>
       <Modal.Header>
-        <div className="offerModalHeader">Valitse nykyinen liittymä</div>
+        <div className='flexRow'>
+          <div className="offerModalHeader">Valitse nykyinen liittymä</div>
+          <Button className="closeButton" onClick={handleClose} icon="x" />
+        </div>
       </Modal.Header>
       <Modal.Content>
         <Form>
@@ -29,9 +37,13 @@ const SelectCurrent = ({ operators, subscriptions, handleSelect }) => {
             {operators.map((opRef) => (
               <Button
                 key={opRef.id}
-                onClick={() => setSelectedOperator(opRef.name)}                
+                onClick={() => setSelectedOperator(opRef.name)}
                 className={`selectedOperatorButton 
-                  ${selectedOperator === opRef.name ? 'selectedOperatorButtonActive' : ''}
+                  ${
+                    selectedOperator === opRef.name
+                      ? 'selectedOperatorButtonActive'
+                      : ''
+                  }
                 `}
               >
                 <OperatorLogo operator={opRef.name} />
@@ -47,7 +59,7 @@ const SelectCurrent = ({ operators, subscriptions, handleSelect }) => {
           }}
           validationSchema={validationSchema}
           onSubmit={(values) => {
-            handleSelect(values.subscription, values.currentOffer)
+            handleSelect(values.subscription, values.currentOffer);
           }}
         >
           {(props) => (
@@ -102,6 +114,16 @@ const SelectCurrent = ({ operators, subscriptions, handleSelect }) => {
           )}
         </Formik>
       </Modal.Content>
+      <Modal.Actions>
+      <Button
+            type="submit"
+            form="currentSubscriptionForm"
+            content="Vertailuun"
+            labelPosition="right"
+            icon="checkmark"
+            positive
+          />
+      </Modal.Actions>
     </>
   );
 };

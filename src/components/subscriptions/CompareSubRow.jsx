@@ -1,28 +1,97 @@
 import React from 'react';
+import { Icon } from 'semantic-ui-react';
 
-const CompareSubRow = ({ feature, current, compareTo, suffix }) => {
+const CompareSubRow = ({
+  feature,
+  current,
+  compareTo,
+  suffix,
+  unlimitedDataCurrent,
+  unlimitedDataOffer,
+}) => {
+  const showStar = () => {
+    switch (feature) {
+      case 'Puhe':
+      case 'Viestit':
+        if (current === 'Rajaton') {
+          return false;
+        } else if (compareTo === 'Rajaton') {
+          return true;
+        } else if (compareTo > current) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'Nettinopeus':
+      case 'Eu data':
+        if (compareTo > current) {
+          return true;
+        }
+        return false;
+      case 'Norm. hinta':
+        if (compareTo <= current) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'Tarjoushinta':
+        if (typeof current === 'object') {
+          return true;
+        } else if (compareTo <= current) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'Lahjakortti':
+        return true;
+
+      case 'Rajaton netti':
+        if (unlimitedDataCurrent) {
+          return false;
+        } else if (unlimitedDataOffer) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'Ei määräaikaa':
+        return true;
+      default:
+        return false;
+    }
+  };
+
   return (
     <div className="offerCardLine compareLine">
-      {feature !== 'Lahjakortti' ? (
+      {feature === 'Tarjouksen pituus' ||
+      feature === 'Lahjakortti' ||
+      feature === 'Ei määräaikaa' ? (
         <>
-          <p className='compareItem'>
-            {current}
-            <span className="small"> {current !== 'Rajaton' && suffix}</span>
-          </p>
-          <span />
+          <p className="compareItem"> </p>
+          <span style={{ borderBottom: '0' }} />
         </>
       ) : (
         <>
-          <p className='compareItem'> </p>
-          <span style={{ borderBottom: '0' }} />
+          <p
+            className={`compareItem left ${
+              typeof current === 'object' && 'center'
+            }`}
+          >
+            {current}
+            <span className="small">
+              {' '}
+              {current !== 'Rajaton' && typeof current !== 'object' && suffix}
+            </span>
+          </p>
+          <span />
         </>
       )}
       <p>{feature}</p>
       <span />
-      <p className='compareItem'>
+      <p className={`compareItem ${typeof compareTo === 'object' && 'center'}`}>
         {compareTo}
         <span className="small"> {compareTo !== 'Rajaton' && suffix}</span>
       </p>
+      {showStar() ? <Icon name="star" color="yellow" /> : <Icon />}
     </div>
   );
 };

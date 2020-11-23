@@ -11,10 +11,12 @@ import Login from "./components/Login";
 import Navbar from "./components/navbar/Navbar";
 import SubscriptionMain from "./components/subscriptions/SubscriptionMain";
 import AdminMain from "./components/admin/AdminMain";
+import ShoppingCart from "./components/shoppingcart/ShoppingCart";
 
 const App = () => {
   const [token, setToken] = useState(null);  
   const [activePage, setActivePage] = useState("Puheliittymät");
+  const [shoppingCart, setShoppingCart] = useState([])
   const client = useApolloClient();
 
   useEffect(() => {
@@ -28,6 +30,18 @@ const App = () => {
     client.resetStore();
   };
 
+  const handleShoppingCart = (action, item) => {
+    if(action === 'ADD'){
+      setShoppingCart([...shoppingCart, item])
+    } else if (action === 'DELETE'){
+      setShoppingCart([...shoppingCart.filter(itemRef => itemRef.id !== item.id)])
+    } else {
+      console.log('Wrong parameter to handleShoppingCart');
+    }
+    console.log(shoppingCart);
+
+  }
+
   if (!token) {
     return (
       <>
@@ -39,9 +53,10 @@ const App = () => {
   return (
     <>
       {token && <Navbar activePage={activePage} setActivePage={setActivePage} logout={logout}/>}
+      {activePage !== 'admin' && <ShoppingCart shoppingCart={shoppingCart} handleShoppingCart={handleShoppingCart} />}
       <Switch>
         <Route path='/puheliittymat'>
-            <SubscriptionMain />
+            <SubscriptionMain handleShoppingCart={handleShoppingCart} />
         </Route>
         <Route path='/admin'>
             <AdminMain />

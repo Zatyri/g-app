@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   Dimmer,
   Form,
   Icon,
@@ -87,7 +88,7 @@ export const FormInput = ({
     <Form.Field>
       <Form.Field label={label}></Form.Field>
       <Input
-      fluid
+        fluid
         disabled={disabled}
         name={name}
         type={type}
@@ -118,5 +119,15 @@ export const FormRadio = ({ label, id, name, checked, onChange, disabled }) => {
         />
       </Form.Group>
     </Form.Input>
+  );
+};
+
+export const AddRemoveInput = ({ action, amount }) => {
+  return (
+    <div className='flexRow'>
+      <Button icon="minus" onClick={() => action('SUBTRACT')} />
+      <p>{amount}</p>
+      <Button icon="add" onClick={ () => action('ADD')} />
+    </div>
   );
 };

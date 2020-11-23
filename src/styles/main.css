@@ -10,6 +10,19 @@ body {
   height: 100%;
 }
 
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .form {
   display: flex;
@@ -68,6 +81,16 @@ td {
   display: flex;  
   justify-content: flex-start;
   align-items: center;
+}
+
+.closeButton {
+  background-color: unset !important;
+  font-size: 1.3em !important;
+  color: black !important
+}
+
+.closeButton:hover {
+  transform: scale(1.3);  
 }
 
 .offerModalHeader span {
@@ -177,3 +200,39 @@ td {
   width: 5em !important;
 }
 
+.compareLine .left {
+  text-align: right;
+}
+
+.compareLine .center {  
+  width: 3.5em !important;
+}
+
+.compareHeader {
+  padding: 5px !important;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1em;  
+  border-bottom: 1px solid black;
+}
+
+.compareHeader h3 {
+  margin-top: 0.5em !important;
+}
+
+.shoppingCartButton {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 1em !important;
+  border-radius: 50% !important;
+  font-size: 1.7em !important;  
+}
+
+.shoppingCartButton:hover {
+  transform: scale(1.05);
+}
+
+.shoppingCartButton:active {
+  transform: scale(0.95);
+}
