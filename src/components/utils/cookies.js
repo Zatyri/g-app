@@ -8,10 +8,13 @@ export const setCookie = (cookieName, cookieValue, daysValid) => {
 export const getCookie = (cookieName) => {
   const name = `${cookieName}=`;
   const decodedCookie = decodeURIComponent(document.cookie).split(';');
-
-  const cookie = decodedCookie.filter((itemRef) => itemRef.startsWith(name));
-  if (cookie[0]) {
-    return cookie[0].substring(name.length, cookie[0].length);
+  if (decodedCookie) {
+    const cookie = decodedCookie.filter((itemRef) => itemRef.startsWith(name));
+    if (cookie[0]) {
+      if (cookie[0].startsWith(name)) {
+        return cookie[0].substring(name.length, cookie[0].length);
+      }
+    }
   }
 
   return '';

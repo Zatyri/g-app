@@ -10,8 +10,10 @@ const Navbar = ({ activePage, setActivePage, logout }) => {
   });
 
   let userType;
-  if (!loading) {
+  if (!loading) {    
+    if(data){
     userType = data.me.type;
+    }
   }
 
   const handleClick = (_, { name }) => {
