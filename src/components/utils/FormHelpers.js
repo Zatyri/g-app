@@ -12,6 +12,7 @@ import {
   Segment,
 } from 'semantic-ui-react';
 
+
 export const XorVIcon = ({ value }) => {
   if (typeof value !== 'boolean') {
     return null;
@@ -124,10 +125,11 @@ export const FormRadio = ({ label, id, name, checked, onChange, disabled }) => {
 
 export const AddRemoveInput = ({ action, amount }) => {
   return (
-    <div className='flexRow'>
+    <div className='flexRow addRemoveInputContainer'>
       <Button icon="minus" onClick={() => action('SUBTRACT')} />
-      <p>{amount}</p>
+      <Label className='amount'>{amount}</Label>
       <Button icon="add" onClick={ () => action('ADD')} />
     </div>
   );
 };
+

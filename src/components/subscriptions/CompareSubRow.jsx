@@ -66,12 +66,12 @@ const CompareSubRow = ({
       feature === 'Lahjakortti' ||
       feature === 'Ei määräaikaa' ? (
         <>
-          <p className="compareItem"> </p>
+          <div className="compareItem"> </div>
           <span style={{ borderBottom: '0' }} />
         </>
       ) : (
         <>
-          <p
+          <div
             className={`compareItem left ${
               typeof current === 'object' && 'center'
             }`}
@@ -81,16 +81,16 @@ const CompareSubRow = ({
               {' '}
               {current !== 'Rajaton' && typeof current !== 'object' && suffix}
             </span>
-          </p>
+          </div>
           <span />
         </>
       )}
       <p>{feature}</p>
       <span />
-      <p className={`compareItem ${typeof compareTo === 'object' && 'center'}`}>
+      <div className={`compareItem ${typeof compareTo === 'object' && 'center'}`}>
         {compareTo}
         <span className="small"> {compareTo !== 'Rajaton' && suffix}</span>
-      </p>
+      </div>
       {showStar() ? <Icon name="star" color="yellow" /> : <Icon />}
     </div>
   );

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { LOGIN } from "../queries/user";
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../queries/user';
 
-import { Formik } from "formik";
-import * as Yup from "yup";
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import {
   Form,
   Button,
@@ -12,16 +12,17 @@ import {
   Grid,
   Header,
   Label,
-} from "semantic-ui-react";
+} from 'semantic-ui-react';
+import { setCookie } from './utils/cookies';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
-    .min(4, "Käyttäjänimi liian lyhyt")
-    .max(15, "Käyttäjänimi liian pitkä")
-    .required("Käyttäjänimi puuttuu"),
+    .min(4, 'Käyttäjänimi liian lyhyt')
+    .max(15, 'Käyttäjänimi liian pitkä')
+    .required('Käyttäjänimi puuttuu'),
   password: Yup.string()
-    .min(8, "Salasana liian lyhyt")
-    .required("Salasana puuttuu"),
+    .min(8, 'Salasana liian lyhyt')
+    .required('Salasana puuttuu'),
 });
 
 const Login = ({ setToken }) => {
@@ -34,8 +35,13 @@ const Login = ({ setToken }) => {
         variables: { username: username, password: password },
       });
       setToken(data.login.value);
-      localStorage.setItem("g-app-user-token", data.login.value); // change this to more secure placement on production
-      //remember to change index.js also!
+      if (process.env.NODE_ENV === 'development') {
+        localStorage.setItem('g-app-user-token', data.login.value);
+      }
+      if(process.env.NODE_ENV === 'production') {        
+        setCookie('g-app-user-token', data.login.value, 1)
+      }
+      
       setInvalidAuth(false);
     } catch (error) {
       setInvalidAuth(true);
@@ -49,7 +55,7 @@ const Login = ({ setToken }) => {
           <div className="form">
             <Header as="h1">Kirjaudu</Header>
             <Formik
-              initialValues={{ username: "", password: "" }}
+              initialValues={{ username: '', password: '' }}
               validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 signUserIn(values);
@@ -69,7 +75,7 @@ const Login = ({ setToken }) => {
                     placeholder="käyttäjänimi"
                   />
                   {props.errors.username && (
-                    <Label className='errorMessage' pointing color="yellow">
+                    <Label className="errorMessage" pointing color="yellow">
                       {props.errors.username}
                     </Label>
                   )}
@@ -84,7 +90,7 @@ const Login = ({ setToken }) => {
                     placeholder="salasana"
                   />
                   {props.errors.password && (
-                    <Label className='errorMessage' pointing color="yellow">
+                    <Label className="errorMessage" pointing color="yellow">
                       {props.errors.password}
                     </Label>
                   )}
@@ -93,7 +99,7 @@ const Login = ({ setToken }) => {
                     type="submit"
                     disabled={props.isSubmitting}
                     color="green"
-                    style={{margin: "4px"}}
+                    style={{ margin: '4px' }}
                   >
                     <Button.Content visible>Kirjaudu</Button.Content>
                     <Button.Content hidden>
@@ -101,9 +107,7 @@ const Login = ({ setToken }) => {
                     </Button.Content>
                   </Button>
                   {invalidAuth && (
-                    <Label color="red">
-                      Väärä käyttäjänimi tai salasana
-                    </Label>
+                    <Label color="red">Väärä käyttäjänimi tai salasana</Label>
                   )}
                 </Form>
               )}

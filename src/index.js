@@ -11,9 +11,17 @@ import {
 } from '@apollo/client';
 import { setContext } from 'apollo-link-context';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { getCookie } from './components/utils/cookies';
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('g-app-user-token');
+  let token = '';
+  if (process.env.NODE_ENV === 'development') {
+    token = localStorage.getItem('g-app-user-token');
+  }
+  if (process.env.NODE_ENV === 'production') {
+    token = getCookie('g-app-user-token');
+  }
+
   return {
     headers: {
       ...headers,
@@ -27,6 +35,7 @@ const httpLink = new HttpLink({ uri: 'http://localhost:4000' });
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
+  credentials: 'include',
 });
 
 ReactDOM.render(
