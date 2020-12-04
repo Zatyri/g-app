@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { Switch, Route } from 'react-router-dom';
+import { AzureAD, AuthenticationState } from 'react-aad-msal';
+import { authProvider } from './authProvider';
+
 
 import 'semantic-ui-css/semantic.min.css';
 import './styles/main.css';
@@ -30,12 +33,34 @@ const App = () => {
 
   }, []);
 
- 
+  const joku = async () => {
+    const account = await authProvider;
+    // console.log(account);
+  
+    const accessTokenRequest = {
+      scopes: ["api://gappi/Subscriptions.Read"]
+    }
+    const accesstoken = await authProvider.getAccessToken(accessTokenRequest);
+     //console.log(accesstoken);
+
+    const idtoken = await authProvider.getIdToken();
+    console.log(idtoken);
+
+   
+  
+
+    const silentToken = await authProvider.acquireTokenSilent(accessTokenRequest);
+    //console.log(silentToken);
+  }
+
+  joku()
+
 
   const logout = () => {
     setToken(null);
     if(process.env.NODE_ENV === 'development'){
       localStorage.clear();
+      authProvider.logout();
     }
     if(process.env.NODE_ENV === 'production'){
       setCookie('g-app-user-token', '', 0)      

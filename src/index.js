@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { AzureAD } from 'react-aad-msal';
+
 import App from './App';
+import { authProvider } from './authProvider';
 
 import reportWebVitals from './reportWebVitals';
 import {
@@ -39,11 +42,14 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <Router>
-      <App />
-    </Router>
-  </ApolloProvider>,
+  <AzureAD provider={authProvider} forceLogin={true}>    
+    <ApolloProvider client={client}>
+      <Router>
+        <App />
+      </Router>
+    </ApolloProvider>
+    
+  </AzureAD>,
   document.getElementById('root')
 );
 
