@@ -14,14 +14,27 @@ import SubscriptionMain from './components/subscriptions/SubscriptionMain';
 import AdminMain from './components/admin/AdminMain';
 import ShoppingCart from './components/shoppingcart/ShoppingCart';
 import { getCookie, setCookie } from './components/utils/cookies';
+import { getUserRole } from './accessValidation'
 
 const App = () => {
-  const [token, setToken] = useState(null);
+  //const [token, setToken] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const [activePage, setActivePage] = useState('Puheliittymät');
   const [shoppingCart, setShoppingCart] = useState([]);
   const client = useApolloClient();
 
+  const identifyUser = async () => {
+    const idToken = await authProvider.getIdToken()
+    setUserRole(getUserRole(idToken.idToken.rawIdToken))
+  }
+
+
+
   useEffect(() => {
+
+identifyUser()
+/*
+    
     if(process.env.NODE_ENV === 'development'){
       const localStorageToken = localStorage.getItem('g-app-user-token');
       localStorageToken && setToken(localStorageToken);
@@ -30,34 +43,37 @@ const App = () => {
       const cookieToken = getCookie('g-app-user-token');      
       cookieToken && setToken(cookieToken)
     }
-
+*/
   }, []);
+  
 
   const joku = async () => {
-    const account = await authProvider;
-    // console.log(account);
-  
     const accessTokenRequest = {
       scopes: ["api://gappi/Subscriptions.Read"]
     }
+    /*
+    const account = await authProvider;
+    // console.log(account);
+  
+  
     const accesstoken = await authProvider.getAccessToken(accessTokenRequest);
      //console.log(accesstoken);
 
     const idtoken = await authProvider.getIdToken();
-    console.log(idtoken);
-
-   
+    
+    */
+    
   
 
-    const silentToken = await authProvider.acquireTokenSilent(accessTokenRequest);
-    //console.log(silentToken);
+    const silentToken = await (await authProvider.acquireTokenSilent(accessTokenRequest)).accessToken;
+    console.log(silentToken);
   }
 
-  joku()
+   joku();
 
 
   const logout = () => {
-    setToken(null);
+    setUserRole(null);
     if(process.env.NODE_ENV === 'development'){
       localStorage.clear();
       authProvider.logout();
@@ -84,7 +100,7 @@ const App = () => {
   };
 
   
-
+/*
   if (!token) {
     return (
       <>
@@ -92,16 +108,18 @@ const App = () => {
       </>
     );
   }
+  */
 
   return (
     <>
-      {token && (
+      
         <Navbar
           activePage={activePage}
           setActivePage={setActivePage}
+          userType={userRole}
           logout={logout}
         />
-      )}
+      
       {activePage !== 'admin' && (
         <ShoppingCart
           shoppingCart={shoppingCart}

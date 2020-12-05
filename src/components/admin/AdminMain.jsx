@@ -9,6 +9,7 @@ import UserView from './user/UserView';
 
 const AdminMain = () => {
   const [view, setView] = useState('tarjous');
+  /*
   const {data, loading, error} = useQuery(ME);  
 
   if(loading){
@@ -20,14 +21,16 @@ const AdminMain = () => {
   if(data.me.type === 'store'){
     return null
   }
- 
+ */
 
   const showView = () => {
     switch (view) {
       case 'tarjous':
         return <OfferView />;
+        /*
       case 'kayttaja':
         return <UserView/>;
+        */
       case 'liittyma':
         return <SubscriptionView/>
       default:
@@ -55,12 +58,7 @@ const AdminMain = () => {
             text="Tarjoukset"
             handleClick={handleClick}
           />
-          <NavButton
-            link="/admin"
-            name="kayttaja"
-            text="Käyttäjähallinta"
-            handleClick={handleClick}
-          />
+
         </Menu.Menu>
       </Menu>
       {showView()}

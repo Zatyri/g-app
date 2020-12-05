@@ -16,30 +16,49 @@ import { setContext } from 'apollo-link-context';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { getCookie } from './components/utils/cookies';
 
-const authLink = setContext((_, { headers }) => {
-  let token = '';
+const accessTokenRequest = {
+  scopes: ["api://gappi/Subscriptions.Read"]
+}
+
+const authLink = setContext(async (_, { headers }) => {
+
+ 
+
+  // headers: {authorization: (await authProvider.acquireTokenSilent(accessTokenRequest)).accessToken}
+  
+  let accessToken =  (await authProvider.acquireTokenSilent(accessTokenRequest)).accessToken
+  
+  /*
   if (process.env.NODE_ENV === 'development') {
-    token = localStorage.getItem('g-app-user-token');
+    accessToken = localStorage.getItem('g-app-user-token');
   }
   if (process.env.NODE_ENV === 'production') {
-    token = getCookie('g-app-user-token');
+    accessToken = getCookie('g-app-user-token');
   }
-
+*/
+  
+  
   return {
     headers: {
       ...headers,
-      authorization: token ? `bearer ${token}` : null,
+      authorization: accessToken ? `bearer ${accessToken}` : null,
     },
   };
+  
 });
 
 const httpLink = new HttpLink({ uri: '/graphql' });
+
+
+
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
   credentials: 'include',
 });
+
+
 
 ReactDOM.render(
   <AzureAD provider={authProvider} forceLogin={true}>    

@@ -4,7 +4,8 @@ import { Menu } from 'semantic-ui-react';
 import { ME } from '../../queries/user';
 import NavButton from './NavButton';
 
-const Navbar = ({ activePage, setActivePage, logout }) => {
+const Navbar = ({ activePage, setActivePage, logout, userType }) => {
+  /*
   const { data, loading } = useQuery(ME, {
     fetchPolicy: 'network-only',
   });
@@ -15,7 +16,7 @@ const Navbar = ({ activePage, setActivePage, logout }) => {
     userType = data.me.type;
     }
   }
-
+*/
   const handleClick = (_, { name }) => {
     setActivePage(name);
   };
@@ -47,7 +48,7 @@ const Navbar = ({ activePage, setActivePage, logout }) => {
         text="Tietoturva"
       />
       <Menu.Menu position="right">
-        {(userType === 'admin' || userType === 'storeAdmin') && (
+        {(userType === 'admin' || userType === 'Store.admin') && (
           <NavButton
             link="/admin"
             name="admin"
