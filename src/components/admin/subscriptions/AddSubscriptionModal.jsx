@@ -1,6 +1,8 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
+
 import { Modal, Button } from 'semantic-ui-react';
+
 import { ADD_SUBSCRIPTION } from '../../../queries/subscription';
 import AddSubscriptionForm from './AddSubscriptionForm';
 

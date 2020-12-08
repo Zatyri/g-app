@@ -1,6 +1,8 @@
-import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+
 import { Button, Modal } from 'semantic-ui-react';
+
 import { ADD_OFFER } from '../../../queries/subscription';
 import AddOfferForm from './AddOfferForm';
 

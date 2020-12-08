@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Form, Label, Modal } from 'semantic-ui-react';
-import { FormInput, FormRadio } from '../utils/FormHelpers';
-import { OperatorLogo } from '../utils/OperatorLogo';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+
+import { Button, Form, Label, Modal } from 'semantic-ui-react';
+
+import { FormInput, FormRadio } from '../utils/FormHelpers';
+import { OperatorLogo } from '../utils/OperatorLogo';
+
 
 const validationSchema = new Yup.object().shape({
   subscription: Yup.string().required('Liittymätyyppiä ei valittu'),

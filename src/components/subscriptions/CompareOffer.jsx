@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { Button, Header, Input, Modal } from 'semantic-ui-react';
+
 import { ALL_OPERATORS, ALL_SUBSCRIPTIONS } from '../../queries/subscription';
 import { ErrorMessage, Loading, AddRemoveInput } from '../utils/FormHelpers';
 import CompareOfferTable from './CompareOfferTable';

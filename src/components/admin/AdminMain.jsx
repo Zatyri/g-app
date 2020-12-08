@@ -1,36 +1,17 @@
-import { useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { Menu } from 'semantic-ui-react';
-import { ME } from '../../queries/user';
+
 import NavButton from '../navbar/NavButton';
 import OfferView from './offer/OfferView';
 import SubscriptionView from './subscriptions/SubscriptionView';
-import UserView from './user/UserView';
 
 const AdminMain = () => {
   const [view, setView] = useState('tarjous');
-  /*
-  const {data, loading, error} = useQuery(ME);  
-
-  if(loading){
-    return null
-  }
-  if(error){
-    return <div>error</div>
-  }
-  if(data.me.type === 'store'){
-    return null
-  }
- */
 
   const showView = () => {
     switch (view) {
       case 'tarjous':
-        return <OfferView />;
-        /*
-      case 'kayttaja':
-        return <UserView/>;
-        */
+        return <OfferView />; 
       case 'liittyma':
         return <SubscriptionView/>
       default:

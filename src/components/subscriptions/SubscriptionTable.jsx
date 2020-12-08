@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { XorVIcon } from '../utils/FormHelpers';
 import OfferCardRow from './OfferCardRow';
 

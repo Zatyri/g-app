@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+
 import { Button, Modal } from 'semantic-ui-react';
+
 import { OperatorLogo } from '../utils/OperatorLogo';
 import CompareOffer from './CompareOffer';
 import OfferCard from './OfferCard';

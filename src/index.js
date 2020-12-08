@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { AzureAD } from 'react-aad-msal';
 
 import App from './App';
-import { authProvider } from './autentication/authProvider';
+import { authProvider } from './authentication/authProvider';
 
 import reportWebVitals from './reportWebVitals';
 import {
@@ -14,7 +14,7 @@ import {
 } from '@apollo/client';
 import { setContext } from 'apollo-link-context';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { getAccessToken } from './autentication/aquireToken';
+import { getAccessToken } from './authentication/aquireToken';
 
 const authLink = setContext(async (_, { scope, headers }) => {
   const accessToken = await getAccessToken(scope);

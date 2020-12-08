@@ -1,5 +1,6 @@
 import React from 'react'
 import { Header } from 'semantic-ui-react'
+
 import { XorVIcon } from '../utils/FormHelpers'
 import { OperatorLogo } from '../utils/OperatorLogo'
 import CompareSubRow from './CompareSubRow'

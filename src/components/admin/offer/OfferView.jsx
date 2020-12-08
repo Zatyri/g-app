@@ -1,6 +1,8 @@
-import { useQuery } from '@apollo/client'
 import React from 'react'
+import { useQuery } from '@apollo/client'
+
 import { Header } from 'semantic-ui-react'
+
 import { ALL_SUBSCRIPTIONS_WITH_OFFER } from '../../../queries/subscription'
 import { ErrorMessage, Loading } from '../../utils/FormHelpers'
 import AddOfferModal from './AddOfferModal'

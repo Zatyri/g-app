@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Card, Divider } from 'semantic-ui-react';
 import { XorVIcon } from '../utils/FormHelpers';
 

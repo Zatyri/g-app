@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { Switch, Route } from 'react-router-dom';
-import { authProvider } from './autentication/authProvider';
+import { authProvider } from './authentication/authProvider';
 
 import 'semantic-ui-css/semantic.min.css';
 import './styles/main.css';
@@ -10,7 +10,7 @@ import Navbar from './components/navbar/Navbar';
 import SubscriptionMain from './components/subscriptions/SubscriptionMain';
 import AdminMain from './components/admin/AdminMain';
 import ShoppingCart from './components/shoppingcart/ShoppingCart';
-import { getUserRole } from './autentication/accessValidation';
+import { getUserRole } from './authentication/accessValidation';
 
 const App = () => {
   const [userRole, setUserRole] = useState(null);

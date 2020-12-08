@@ -1,8 +1,10 @@
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import { Formik } from 'formik';
-import React from 'react';
 import * as Yup from 'yup';
+
 import { Form, Button, Header, Label, Radio } from 'semantic-ui-react';
+
 import { ALL_OPERATORS } from '../../../queries/subscription';
 import { OperatorLogo } from '../../utils/OperatorLogo';
 

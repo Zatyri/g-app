@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { Button, Dropdown, Header, Icon, Table } from 'semantic-ui-react';
+
 import {
   ALL_OPERATORS,
   ALL_SUBSCRIPTIONS,
