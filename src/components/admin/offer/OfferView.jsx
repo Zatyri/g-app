@@ -8,7 +8,9 @@ import AddOfferModal from './AddOfferModal'
 import OfferDisplayTable from './OfferDisplayTable'
 
 const OfferView = () => {
-  const {data, error, loading} = useQuery(ALL_SUBSCRIPTIONS_WITH_OFFER)
+  const {data, error, loading} = useQuery(ALL_SUBSCRIPTIONS_WITH_OFFER, {
+    context: { scope: 'api://gappi/api/user' },
+  })
 
   if (loading) {
     return <Loading />;

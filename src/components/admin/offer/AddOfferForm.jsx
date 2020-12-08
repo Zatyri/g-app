@@ -25,8 +25,12 @@ const validationSchema = new Yup.object().shape({
 
 const AddOfferForm = ({ handleAddOffer }) => {
   const [selectedOperator, setSelectedOperator] = useState();
-  const allOperators = useQuery(ALL_OPERATORS);
-  const allActiveSubscription = useQuery(ALL_ACTIVE_SUBSCRIPTIONS);
+  const allOperators = useQuery(ALL_OPERATORS, {
+    context: { scope: 'api://gappi/api/user' },
+  });
+  const allActiveSubscription = useQuery(ALL_ACTIVE_SUBSCRIPTIONS, {
+    context: { scope: 'api://gappi/api/user' },
+  });
 
   if (allOperators.loading || allActiveSubscription.loading) {
     return <Loading />;

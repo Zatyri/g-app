@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { AzureAD } from 'react-aad-msal';
+
 import App from './App';
+import { authProvider } from './autentication/authProvider';
 
 import reportWebVitals from './reportWebVitals';
 import {
@@ -11,21 +14,15 @@ import {
 } from '@apollo/client';
 import { setContext } from 'apollo-link-context';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { getCookie } from './components/utils/cookies';
+import { getAccessToken } from './autentication/aquireToken';
 
-const authLink = setContext((_, { headers }) => {
-  let token = '';
-  if (process.env.NODE_ENV === 'development') {
-    token = localStorage.getItem('g-app-user-token');
-  }
-  if (process.env.NODE_ENV === 'production') {
-    token = getCookie('g-app-user-token');
-  }
+const authLink = setContext(async (_, { scope, headers }) => {
+  const accessToken = await getAccessToken(scope);
 
   return {
     headers: {
       ...headers,
-      authorization: token ? `bearer ${token}` : null,
+      authorization: accessToken ? `bearer ${accessToken}` : null,
     },
   };
 });
@@ -39,11 +36,13 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <Router>
-      <App />
-    </Router>
-  </ApolloProvider>,
+  <AzureAD provider={authProvider} forceLogin={true}>
+    <ApolloProvider client={client}>
+      <Router>
+        <App />
+      </Router>
+    </ApolloProvider>
+  </AzureAD>,
   document.getElementById('root')
 );
 

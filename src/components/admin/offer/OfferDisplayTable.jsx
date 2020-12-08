@@ -6,7 +6,9 @@ import { REMOVE_OFFER } from '../../../queries/subscription';
 import { XorVIcon } from '../../utils/FormHelpers';
 
 const OfferDisplayTable = ({ operator, subscriptions }) => {
-  const [removeOffer] = useMutation(REMOVE_OFFER);
+  const [removeOffer] = useMutation(REMOVE_OFFER, {
+    context: { scope: 'api://gappi/api/storeadmin' },
+  });
 
   const headers = ['Nimi', 'Tarjoushinta', 'Alennus', 'Pituus(kk)', 'Määräaika', 'Luokka', 'Poista'];
 
