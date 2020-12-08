@@ -1,93 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { Switch, Route } from 'react-router-dom';
-import { AzureAD, AuthenticationState } from 'react-aad-msal';
-import { authProvider } from './authProvider';
-
+import { authProvider } from './autentication/authProvider';
 
 import 'semantic-ui-css/semantic.min.css';
 import './styles/main.css';
 
-import Login from './components/Login';
 import Navbar from './components/navbar/Navbar';
 import SubscriptionMain from './components/subscriptions/SubscriptionMain';
 import AdminMain from './components/admin/AdminMain';
 import ShoppingCart from './components/shoppingcart/ShoppingCart';
-import { getCookie, setCookie } from './components/utils/cookies';
-import { getUserRole } from './accessValidation'
+import { getUserRole } from './autentication/accessValidation';
 
 const App = () => {
-  //const [token, setToken] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [activePage, setActivePage] = useState('Puheliittymät');
   const [shoppingCart, setShoppingCart] = useState([]);
   const client = useApolloClient();
 
   const identifyUser = async () => {
-    const idToken = await authProvider.getIdToken()
-    setUserRole(getUserRole(idToken.idToken.rawIdToken))
-  }
-
-
+    const idToken = await authProvider.getIdToken();
+    setUserRole(getUserRole(idToken.idToken.rawIdToken));
+  };
 
   useEffect(() => {
-
-identifyUser()
-/*
-    
-    if(process.env.NODE_ENV === 'development'){
-      const localStorageToken = localStorage.getItem('g-app-user-token');
-      localStorageToken && setToken(localStorageToken);
-    }
-    if(process.env.NODE_ENV === 'production'){
-      const cookieToken = getCookie('g-app-user-token');      
-      cookieToken && setToken(cookieToken)
-    }
-*/
+    identifyUser();
   }, []);
-  
-
-  const joku = async () => {
-    const accessTokenRequest = {
-      scopes: ["api://gappi/Subscriptions.Read"]
-    }
-    /*
-    const account = await authProvider;
-    // console.log(account);
-  
-  
-    const accesstoken = await authProvider.getAccessToken(accessTokenRequest);
-     //console.log(accesstoken);
-
-    const idtoken = await authProvider.getIdToken();
-    
-    */
-    
-  
-
-    const silentToken = await (await authProvider.acquireTokenSilent(accessTokenRequest)).accessToken;
-    console.log(silentToken);
-  }
-
-   joku();
-
 
   const logout = () => {
     setUserRole(null);
-    if(process.env.NODE_ENV === 'development'){
-      localStorage.clear();
-      authProvider.logout();
-    }
-    if(process.env.NODE_ENV === 'production'){
-      setCookie('g-app-user-token', '', 0)      
-    }    
+    localStorage.clear();
+    authProvider.logout();
     client.resetStore();
   };
 
   const handleShoppingCart = (action, item) => {
     if (action === 'ADD') {
-      if(shoppingCart.find(itemRef => item.id === itemRef.id)){
-        return null
+      if (shoppingCart.find((itemRef) => item.id === itemRef.id)) {
+        return null;
       }
       setShoppingCart([...shoppingCart, item]);
     } else if (action === 'DELETE') {
@@ -99,27 +49,15 @@ identifyUser()
     }
   };
 
-  
-/*
-  if (!token) {
-    return (
-      <>
-        <Login setToken={setToken} />
-      </>
-    );
-  }
-  */
-
   return (
     <>
-      
-        <Navbar
-          activePage={activePage}
-          setActivePage={setActivePage}
-          userType={userRole}
-          logout={logout}
-        />
-      
+      <Navbar
+        activePage={activePage}
+        setActivePage={setActivePage}
+        userType={userRole}
+        logout={logout}
+      />
+
       {activePage !== 'admin' && (
         <ShoppingCart
           shoppingCart={shoppingCart}

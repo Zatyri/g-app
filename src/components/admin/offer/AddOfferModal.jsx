@@ -6,7 +6,9 @@ import AddOfferForm from './AddOfferForm';
 
 const AddOfferModal = () => {
   const [open, setOpen] = useState(false);
-  const [addOffer] = useMutation(ADD_OFFER);
+  const [addOffer] = useMutation(ADD_OFFER, {
+    context: { scope: 'api://gappi/api/storeadmin' },
+  });
 
   const handleAddOffer = async (values) => {
     try {

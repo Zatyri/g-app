@@ -1,22 +1,8 @@
-import { useQuery } from '@apollo/client';
 import React from 'react';
 import { Menu } from 'semantic-ui-react';
-import { ME } from '../../queries/user';
 import NavButton from './NavButton';
 
 const Navbar = ({ activePage, setActivePage, logout, userType }) => {
-  /*
-  const { data, loading } = useQuery(ME, {
-    fetchPolicy: 'network-only',
-  });
-
-  let userType;
-  if (!loading) {    
-    if(data){
-    userType = data.me.type;
-    }
-  }
-*/
   const handleClick = (_, { name }) => {
     setActivePage(name);
   };
@@ -48,7 +34,7 @@ const Navbar = ({ activePage, setActivePage, logout, userType }) => {
         text="Tietoturva"
       />
       <Menu.Menu position="right">
-        {(userType === 'admin' || userType === 'Store.admin') && (
+        {(userType === 'admin' || userType === 'storeadmin') && (
           <NavButton
             link="/admin"
             name="admin"

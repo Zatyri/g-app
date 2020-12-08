@@ -22,12 +22,18 @@ const sortingFunction = (sortBy) => {
 
 const SubscriptionView = () => {
   const { data: subData, error: subError, loading: subLoading } = useQuery(
-    ALL_SUBSCRIPTIONS
+    ALL_SUBSCRIPTIONS, {
+      context: { scope: 'api://gappi/api/user' },
+    }
   );
   const { data: opData, error: opError, loading: opLoading } = useQuery(
-    ALL_OPERATORS
+    ALL_OPERATORS, {
+      context: { scope: 'api://gappi/api/user' },
+    }
   );
-  const [deleteSubscription] = useMutation(DELETE_SUBSCRIPTION);
+  const [deleteSubscription] = useMutation(DELETE_SUBSCRIPTION, {
+    context: { scope: 'api://gappi/api/admin' },
+  });
   const [sortFunction, setSortFunction] = useState();
   const [filterOperator, setFilterOperator] = useState();
 

@@ -7,7 +7,9 @@ import AddSubscriptionForm from './AddSubscriptionForm';
 const AddSubscriptionModal = () => {
   const [open, setOpen] = useState(false);
   const [selectedOperator, setSelectedOperator] = useState();
-  const [addSubscription] = useMutation(ADD_SUBSCRIPTION);
+  const [addSubscription] = useMutation(ADD_SUBSCRIPTION, {
+    context: { scope: 'api://gappi/api/admin' },
+  });
 
   const handleClose = () => {
     setOpen(false);

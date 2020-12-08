@@ -2,20 +2,18 @@ import { useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { Button, Header, Input, Modal } from 'semantic-ui-react';
 import { ALL_OPERATORS, ALL_SUBSCRIPTIONS } from '../../queries/subscription';
-import {
-  ErrorMessage,
-  Loading,
-  XorVIcon,
-  AddRemoveInput,
-} from '../utils/FormHelpers';
-import { OperatorLogo } from '../utils/OperatorLogo';
+import { ErrorMessage, Loading, AddRemoveInput } from '../utils/FormHelpers';
 import CompareOfferTable from './CompareOfferTable';
 import CompareSubRow from './CompareSubRow';
 import SelectCurrent from './SelectCurrent';
 
 const CompareOffer = ({ offerSub, handleClose, handleShoppingCart }) => {
-  const { data, loading, error } = useQuery(ALL_SUBSCRIPTIONS);
-  const operatorQuery = useQuery(ALL_OPERATORS);
+  const { data, loading, error } = useQuery(ALL_SUBSCRIPTIONS, {
+    context: { scope: 'api://gappi/api/user' },
+  });
+  const operatorQuery = useQuery(ALL_OPERATORS, {
+    context: { scope: 'api://gappi/api/user' },
+  });
   const [currentSub, setCurrentSub] = useState();
   const [currentSubOffer, setCurrentSubOffer] = useState();
   const [amount, setAmount] = useState(1);
@@ -71,11 +69,15 @@ const CompareOffer = ({ offerSub, handleClose, handleShoppingCart }) => {
 
   const handleAddSub = () => {
     const newCartObject = {
-      id: (offerSub.id).concat(currentSub.id),
-      offer: manualOffer ? {...offerSub, oneTimeDiscount: manualOffer} : offerSub,
-      current: currentSubOffer ? {...currentSub, offer: currentSubOffer} : currentSub,
+      id: offerSub.id.concat(currentSub.id),
+      offer: manualOffer
+        ? { ...offerSub, oneTimeDiscount: manualOffer }
+        : offerSub,
+      current: currentSubOffer
+        ? { ...currentSub, offer: currentSubOffer }
+        : currentSub,
       amount: amount,
-    };    
+    };
     handleShoppingCart('ADD', newCartObject);
     handleClose();
   };
@@ -85,7 +87,7 @@ const CompareOffer = ({ offerSub, handleClose, handleShoppingCart }) => {
     setCurrentSubOffer();
   };
 
-  const handleAmount = (action) => {    
+  const handleAmount = (action) => {
     if (amount < 1) {
       setAmount(1);
     } else if (action === 'ADD') {
@@ -121,7 +123,12 @@ const CompareOffer = ({ offerSub, handleClose, handleShoppingCart }) => {
         </div>
       </Modal.Header>
       <Modal.Content>
-        <CompareOfferTable currentSub={currentSub} offerSub={offerSub} currentSubOffer={currentSubOffer} handleManualOffer={handleManualOffer} />
+        <CompareOfferTable
+          currentSub={currentSub}
+          offerSub={offerSub}
+          currentSubOffer={currentSubOffer}
+          handleManualOffer={handleManualOffer}
+        />
       </Modal.Content>
       <Modal.Actions className="flexRow">
         <Button onClick={handleChangeCurrent}>Vaihda nykyistä liittymää</Button>

@@ -6,7 +6,9 @@ import { EDIT_SUBSCRIPTION } from '../../../queries/subscription';
 
 const EditSubscriptionModal = (props) => {
   const [open, setOpen] = useState(false);
-  const [editSubscription] = useMutation(EDIT_SUBSCRIPTION);
+  const [editSubscription] = useMutation(EDIT_SUBSCRIPTION, {
+    context: { scope: 'api://gappi/api/admin' },
+  });
 
   const handleUpdateSub = async ({
     id,

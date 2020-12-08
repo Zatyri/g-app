@@ -61,7 +61,6 @@ export const Loading = () => {
 
 export const ErrorMessage = ({ error }) => {
   console.log(error);
-
   return <div>Virhe</div>;
 };
 

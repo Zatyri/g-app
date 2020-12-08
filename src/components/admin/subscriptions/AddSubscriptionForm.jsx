@@ -22,7 +22,9 @@ const AddSubscriptionForm = ({
   setSelectedOperator,
   handleAddSubscription,
 }) => {
-  const operators = useQuery(ALL_OPERATORS);
+  const operators = useQuery(ALL_OPERATORS, {
+    context: { scope: 'api://gappi/api/user' },
+  });
 
   if (operators.loading) {
     return null;
