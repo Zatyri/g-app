@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { SUBSCRIPTION_INFO, SUBSCRIPTION_INFO_WITH_OFFER } from './fragments';
+import { SUBSCRIPTION_INFO, SUBSCRIPTION_INFO_WITH_OFFER, NET_SUBSCRIPTION_INFO, NET_SUBSCRIPTION_INFO_WITH_OFFER } from './fragments';
 
 export const ALL_SUBSCRIPTIONS = gql`
   query {
@@ -8,6 +8,15 @@ export const ALL_SUBSCRIPTIONS = gql`
     }
   }
   ${SUBSCRIPTION_INFO}
+`;
+
+export const ALL_NET_SUBSCRIPTIONS = gql`
+query {
+  allNetSubscriptions {
+    ...NetSubscriptionInfo
+  }
+}
+${NET_SUBSCRIPTION_INFO}
 `;
 
 export const ALL_SUBSCRIPTIONS_WITH_OFFER = gql`
@@ -19,6 +28,15 @@ export const ALL_SUBSCRIPTIONS_WITH_OFFER = gql`
   ${SUBSCRIPTION_INFO_WITH_OFFER}
 `;
 
+export const ALL_NET_SUBSCRIPTIONS_WITH_OFFER = gql`
+  query {
+    allNetSubscriptionsWithOffer {
+      ...NetSubscriptionInfoWithOffer
+    }
+  }
+  ${NET_SUBSCRIPTION_INFO_WITH_OFFER}
+`;
+
 export const ALL_ACTIVE_SUBSCRIPTIONS = gql`
   query {
     allActiveSubscriptions {
@@ -27,6 +45,16 @@ export const ALL_ACTIVE_SUBSCRIPTIONS = gql`
   }
   ${SUBSCRIPTION_INFO}
 `;
+
+export const ALL_ACTIVE_NET_SUBSCRIPTIONS = gql`
+  query {
+    allActiveNetSubscriptions {
+      ...NetSubscriptionInfo
+    }
+  }
+  ${NET_SUBSCRIPTION_INFO}
+`;
+
 
 export const GET_SUBSCRIPTIONS_BY_OPERATOR = gql`
   query getSubscriptionsByOperator($id: ID!) {
@@ -66,6 +94,31 @@ export const ADD_SUBSCRIPTION = gql`
   ${SUBSCRIPTION_INFO}
 `;
 
+export const ADD_NET_SUBSCRIPTION = gql`
+  mutation addNetSubscription(
+    $operator: String!
+    $name: String!
+    $type: String!    
+    $speed: String!    
+    $eu: Int!
+    $active: Boolean!
+    $price: String!
+  ) {
+    addNetSubscription(
+      operator: $operator
+      name: $name
+      type: $type   
+      speed: $speed    
+      eu: $eu
+      active: $active
+      price: $price
+    ) {
+      ...NetSubscriptionInfo
+    }
+  }
+  ${NET_SUBSCRIPTION_INFO}
+`;
+
 export const EDIT_SUBSCRIPTION = gql`
   mutation modifiSubscription(
     $id: ID!
@@ -80,7 +133,6 @@ export const EDIT_SUBSCRIPTION = gql`
   ) {
     modifySubscription(
       id: $id
-
       name: $name
       talk: $talk
       sms: $sms
@@ -96,8 +148,42 @@ export const EDIT_SUBSCRIPTION = gql`
   ${SUBSCRIPTION_INFO}
 `;
 
+export const EDIT_NET_SUBSCRIPTION = gql`
+  mutation modifyNetSubscription(
+    $id: ID!
+    $name: String
+    $type: String    
+    $speed: String    
+    $eu: Int
+    $active: Boolean
+    $price: String
+  ) {
+    modifyNetSubscription(
+      id: $id
+      name: $name
+      type: $type     
+      speed: $speed      
+      eu: $eu
+      active: $active
+      price: $price
+    ) {
+      ...NetSubscriptionInfo
+    }
+  }
+  ${NET_SUBSCRIPTION_INFO}
+`;
+
 export const DELETE_SUBSCRIPTION = gql`
   mutation deleteSubscription($id: ID!) {
+    deleteSubscription(id: $id) {
+      name
+      id
+    }
+  }
+`;
+
+export const DELETE_NET_SUBSCRIPTION = gql`
+  mutation deleteNetSubscription($id: ID!) {
     deleteSubscription(id: $id) {
       name
       id
@@ -137,6 +223,29 @@ export const ADD_OFFER = gql`
   ${SUBSCRIPTION_INFO_WITH_OFFER}
 `;
 
+export const ADD_NET_OFFER = gql`
+  mutation addNetOffer(
+    $id: ID!
+    $offer: String!
+    $offerLength: Int
+    $bindingOffer: Boolean
+    $oneTimeDiscount: Int
+    $offerValue: Int
+  ) {
+    addNetOffer(
+      id: $id
+      offer: $offer
+      offerLength: $offerLength
+      bindingOffer: $bindingOffer
+      oneTimeDiscount: $oneTimeDiscount
+      offerValue: $offerValue
+    ) {
+      ...NetSubscriptionInfoWithOffer
+    }
+  }
+  ${NET_SUBSCRIPTION_INFO_WITH_OFFER}
+`;
+
 export const REMOVE_OFFER = gql`
   mutation removeOffer($id: ID!) {
     removeOffer(id: $id) {
@@ -144,3 +253,4 @@ export const REMOVE_OFFER = gql`
     }
   }
 `;
+

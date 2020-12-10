@@ -5,8 +5,8 @@ import * as Yup from 'yup';
 
 import { Form, Button, Header, Label, Radio } from 'semantic-ui-react';
 
-import { ALL_OPERATORS } from '../../../queries/subscription';
-import { OperatorLogo } from '../../utils/OperatorLogo';
+import { ALL_OPERATORS } from '../../../../queries/subscription';
+import { OperatorLogo } from '../../../utils/OperatorLogo';
 
 const validationSchema = new Yup.object().shape({
   name: Yup.string().min(4, 'Liian lyhyt nimi').required('Nimi puuttuu'),

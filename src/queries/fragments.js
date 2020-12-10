@@ -47,3 +47,42 @@ export const SUBSCRIPTION_INFO_WITH_OFFER = gql`
     id
   }
 `;
+
+export const NET_SUBSCRIPTION_INFO = gql`
+  fragment NetSubscriptionInfo on NetSubscription {
+    operator {
+      name
+      id
+    }
+    active
+    name
+    type
+    speed
+    eu
+    hasOffer
+    price      
+    id
+  }
+`;
+
+
+export const NET_SUBSCRIPTION_INFO_WITH_OFFER = gql`
+  fragment NetSubscriptionInfoWithOffer on NetSubscription {
+    operator {
+      name
+    }
+    active
+    name
+    type
+    speed
+    eu
+    price
+    hasOffer
+    offer
+    offerLength
+    bindingOffer
+    offerValue
+    oneTimeDiscount
+    id
+  }
+`;

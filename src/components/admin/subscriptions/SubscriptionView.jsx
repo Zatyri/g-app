@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
-import { Button, Dropdown, Header, Icon, Table } from 'semantic-ui-react';
+import { Button, Dropdown, Header, Icon, Menu, Table } from 'semantic-ui-react';
 
 import {
   ALL_OPERATORS,
@@ -9,8 +9,9 @@ import {
 } from '../../../queries/subscription';
 import { XorVIcon, Loading, ErrorMessage } from '../../utils/FormHelpers';
 import { OperatorLogo } from '../../utils/OperatorLogo';
-import AddSubscriptionModal from './AddSubscriptionModal';
-import EditSubscriptionModal from './EditSubscriptionModal';
+import AddNetSubModal from './net/AddNetSubModal';
+import AddSubscriptionModal from './talk/AddSubscriptionModal';
+import EditSubscriptionModal from './talk/EditSubscriptionModal';
 
 const sortingFunction = (sortBy) => {
   switch (sortBy) {
@@ -23,12 +24,14 @@ const sortingFunction = (sortBy) => {
 
 const SubscriptionView = () => {
   const { data: subData, error: subError, loading: subLoading } = useQuery(
-    ALL_SUBSCRIPTIONS, {
+    ALL_SUBSCRIPTIONS,
+    {
       context: { scope: 'api://gappi/api/user' },
     }
   );
   const { data: opData, error: opError, loading: opLoading } = useQuery(
-    ALL_OPERATORS, {
+    ALL_OPERATORS,
+    {
       context: { scope: 'api://gappi/api/user' },
     }
   );
@@ -80,12 +83,20 @@ const SubscriptionView = () => {
     ));
   //sorters
   allSubscriptions.sort(sortingFunction(sortFunction));
-  console.log(allSubscriptions[0].name);
 
   return (
     <>
       <Header as="h2">Liittymähallinta</Header>
-      <AddSubscriptionModal />
+      <span className="flexRow flexLeft">
+        <Menu>
+          <Menu.Item>
+            <AddSubscriptionModal />
+          </Menu.Item>
+          <Menu.Item>
+            <AddNetSubModal />
+          </Menu.Item>
+        </Menu>
+      </span>
       <Table celled selectable>
         <Table.Header>
           <Table.Row>
@@ -147,7 +158,7 @@ const SubscriptionView = () => {
               <Table.Cell>{subRef.equivelentSub.name}</Table.Cell>
               <Table.Cell>{subRef.price}</Table.Cell>
               <Table.Cell>
-                <EditSubscriptionModal subRef={subRef}/>
+                <EditSubscriptionModal subRef={subRef} />
                 <Button
                   id={subRef.id}
                   name={subRef.name}

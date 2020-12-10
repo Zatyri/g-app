@@ -36,13 +36,15 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
+  <ApolloProvider client={client}>
   <AzureAD provider={authProvider} forceLogin={true}>
-    <ApolloProvider client={client}>
+    
       <Router>
         <App />
       </Router>
-    </ApolloProvider>
-  </AzureAD>,
+    
+  </AzureAD>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 

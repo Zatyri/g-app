@@ -25,7 +25,7 @@ const config = {
 
 // Authentication Parameters
 const authenticationParameters = {
-  scopes: ['user.read'],
+  scopes: ['user.read', 'openid', 'profile'],
 };
 
 // Options

@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 
-import { Modal, Button } from 'semantic-ui-react';
+import { Modal, Button, Icon } from 'semantic-ui-react';
 
-import { ADD_SUBSCRIPTION } from '../../../queries/subscription';
+import { ADD_SUBSCRIPTION } from '../../../../queries/subscription';
 import AddSubscriptionForm from './AddSubscriptionForm';
 
 const AddSubscriptionModal = () => {
@@ -67,9 +67,9 @@ const AddSubscriptionModal = () => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button>Lisää liittymä</Button>}
+      trigger={<Button icon labelPosition='right'><Icon name='phone' />Lisää puheliittymä</Button>}
     >
-      <Modal.Header>Lisää liittymä</Modal.Header>
+      <Modal.Header>Lisää puheliittymä</Modal.Header>
       <Modal.Content>
         <AddSubscriptionForm
           closeModal={handleClose}

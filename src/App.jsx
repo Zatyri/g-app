@@ -24,7 +24,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    identifyUser();
+    identifyUser();    
   }, []);
 
   const logout = () => {
@@ -33,6 +33,8 @@ const App = () => {
     authProvider.logout();
     client.resetStore();
   };
+
+
 
   const handleShoppingCart = (action, item) => {
     if (action === 'ADD') {

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button, Icon, Modal } from 'semantic-ui-react';
 
 import EditSubscriptionForm from './EditSubscriptionForm';
-import { EDIT_SUBSCRIPTION } from '../../../queries/subscription';
+import { EDIT_SUBSCRIPTION } from '../../../../queries/subscription';
 
 const EditSubscriptionModal = (props) => {
   const [open, setOpen] = useState(false);
