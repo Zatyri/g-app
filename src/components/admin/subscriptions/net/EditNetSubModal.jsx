@@ -3,22 +3,21 @@ import React, { useState } from 'react';
 
 import { Button, Icon, Modal } from 'semantic-ui-react';
 
-import EditSubscriptionForm from './EditSubscriptionForm';
-import { EDIT_SUBSCRIPTION } from '../../../../queries/subscription';
 
-const EditSubscriptionModal = (props) => {
+import { EDIT_NET_SUBSCRIPTION } from '../../../../queries/subscription';
+import EditNetSubForm from './EditNetSubForm';
+
+const EditNetSubModal = (props) => {
   const [open, setOpen] = useState(false);
-  const [editSubscription] = useMutation(EDIT_SUBSCRIPTION, {
+  const [editSubscription] = useMutation(EDIT_NET_SUBSCRIPTION, {
     context: { scope: 'api://gappi/api/admin' },
   });
 
   const handleUpdateSub = async ({
     id,
     name,
-    talk,
-    sms,
-    speed,
-    unlimited,
+    type,
+    speed, 
     eu,
     active,
     price
@@ -30,10 +29,8 @@ const EditSubscriptionModal = (props) => {
         variables: {
           id,
           name,
-          talk,
-          sms,
+          type,
           speed,
-          unlimited,
           eu,
           active,
           price,
@@ -59,15 +56,12 @@ const EditSubscriptionModal = (props) => {
     >
       <Modal.Header>Muokkaa</Modal.Header>
       <Modal.Content>
-        <EditSubscriptionForm
-          subRef={props.subRef}
-          handleEditSub={handleUpdateSub}
-        />
+        <EditNetSubForm subRef={props.subRef} handleEditSub={handleUpdateSub} />
       </Modal.Content>
       <Modal.Actions>
         <Button
           type="submit"
-          form="editSubscriptionForm"
+          form="editNetSubscriptionForm"
           content="Tallenna"
           icon="checkmark"
           positive
@@ -82,4 +76,5 @@ const EditSubscriptionModal = (props) => {
   );
 };
 
-export default EditSubscriptionModal;
+export default EditNetSubModal;
+

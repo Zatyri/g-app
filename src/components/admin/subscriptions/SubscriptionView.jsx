@@ -1,17 +1,21 @@
 import { useQuery, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
-import { Button, Dropdown, Header, Icon, Menu, Table } from 'semantic-ui-react';
+import { Checkbox, Header, Menu } from 'semantic-ui-react';
 
 import {
   ALL_OPERATORS,
   ALL_SUBSCRIPTIONS,
   DELETE_SUBSCRIPTION,
+  ALL_NET_SUBSCRIPTIONS,
+  DELETE_NET_SUBSCRIPTION,
 } from '../../../queries/subscription';
-import { XorVIcon, Loading, ErrorMessage } from '../../utils/FormHelpers';
-import { OperatorLogo } from '../../utils/OperatorLogo';
+import { Loading, ErrorMessage } from '../../utils/FormHelpers';
+
 import AddNetSubModal from './net/AddNetSubModal';
+import NetSubTable from './net/NetSubTable';
 import AddSubscriptionModal from './talk/AddSubscriptionModal';
-import EditSubscriptionModal from './talk/EditSubscriptionModal';
+
+import SubTable from './talk/SubTable';
 
 const sortingFunction = (sortBy) => {
   switch (sortBy) {
@@ -38,13 +42,27 @@ const SubscriptionView = () => {
   const [deleteSubscription] = useMutation(DELETE_SUBSCRIPTION, {
     context: { scope: 'api://gappi/api/admin' },
   });
+  const {
+    data: netSubData,
+    error: netSubError,
+    loading: netSubLoading,
+  } = useQuery(ALL_NET_SUBSCRIPTIONS, {
+    context: { scope: 'api://gappi/api/user' },
+  });
+  const [deleteNetSubscription] = useMutation(DELETE_NET_SUBSCRIPTION, {
+    context: { scope: 'api://gappi/api/admin' },
+  });
+
   const [sortFunction, setSortFunction] = useState();
   const [filterOperator, setFilterOperator] = useState();
+  const [netFilterOperator, setNetFilterOperator] = useState();
+  const [showSubscriptions, setShowSubscriptions] = useState(true);
+  const [showNetSubscriptions, setShowNetSubscriptions] = useState(true);
 
-  if (subLoading || opLoading) {
+  if (subLoading || opLoading || netSubLoading) {
     return <Loading />;
   }
-  if (subError || opError) {
+  if (subError || opError || netSubError) {
     return <ErrorMessage error={subError} />;
   }
 
@@ -74,20 +92,51 @@ const SubscriptionView = () => {
       window.alert(error.message);
     }
   };
+  const handleNetDelete = async (_, { id, name }) => {
+    const confirmation = window.confirm(`Poistetaanko liittymä ${name}`);
+    if (!confirmation) {
+      return null;
+    }
+    try {
+      await deleteNetSubscription({
+        variables: { id: id },
+        update: (cache, { data }) => {
+          const cacheId = cache.identify(data.deleteNetSubscription);
+          cache.modify({
+            fields: {
+              allNetSubscriptions: (existingFieldData) => {
+                const newFieldData = existingFieldData.filter(
+                  (subRef) => cacheId !== subRef.__ref
+                );
+                return newFieldData;
+              },
+            },
+          });
+        },
+      });
+    } catch (error) {
+      window.alert(error.message);
+    }
+  };
 
   let allSubscriptions = [...subData.allSubscriptions];
+  let allNetSubscriptions = [...netSubData.allNetSubscriptions];
   //filters
   filterOperator &&
     (allSubscriptions = [...allSubscriptions].filter(
       (subRef) => subRef.operator.name === filterOperator
     ));
+  netFilterOperator &&
+    (allNetSubscriptions = [...allNetSubscriptions].filter(
+      (subRef) => subRef.operator.name === netFilterOperator
+    ));
   //sorters
   allSubscriptions.sort(sortingFunction(sortFunction));
 
   return (
-    <>
+    <div style={{ margin: '2em' }}>
       <Header as="h2">Liittymähallinta</Header>
-      <span className="flexRow flexLeft">
+      <div className="flexRow flexLeft">
         <Menu>
           <Menu.Item>
             <AddSubscriptionModal />
@@ -96,83 +145,46 @@ const SubscriptionView = () => {
             <AddNetSubModal />
           </Menu.Item>
         </Menu>
-      </span>
-      <Table celled selectable>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>
-              <Dropdown text="Operaattori" multiple icon="filter">
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => setFilterOperator()}>
-                    kaikki
-                  </Dropdown.Item>
-                  <Dropdown.Divider />
-                  {opData.allOperators.map((opRef) => (
-                    <Dropdown.Item
-                      key={opRef.id}
-                      onClick={() => setFilterOperator(opRef.name)}
-                    >
-                      {opRef.name}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            </Table.HeaderCell>
-            <Table.HeaderCell>
-              <Dropdown
-                text="Nimi"
-                icon="sort"
-                onClick={() =>
-                  sortFunction ? setSortFunction() : setSortFunction('name')
-                }
-              ></Dropdown>
-            </Table.HeaderCell>
-            <Table.HeaderCell>Puhe</Table.HeaderCell>
-            <Table.HeaderCell>Viestit</Table.HeaderCell>
-            <Table.HeaderCell>Nettinopeus</Table.HeaderCell>
-            <Table.HeaderCell>Rajaton netti</Table.HeaderCell>
-            <Table.HeaderCell>Eu data</Table.HeaderCell>
-            <Table.HeaderCell>Aktiivinen</Table.HeaderCell>
-            <Table.HeaderCell>Vastaavat liittymät</Table.HeaderCell>
-            <Table.HeaderCell>Hinta</Table.HeaderCell>
-            <Table.HeaderCell>Muokkaa</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {allSubscriptions.map((subRef) => (
-            <Table.Row key={subRef.id}>
-              <Table.Cell className="operatorLogoContainer">
-                <OperatorLogo operator={subRef.operator.name} />{' '}
-              </Table.Cell>
-              <Table.Cell>{subRef.name}</Table.Cell>
-              <Table.Cell>{subRef.talk}</Table.Cell>
-              <Table.Cell>{subRef.sms}</Table.Cell>
-              <Table.Cell>{subRef.speed}</Table.Cell>
-              <Table.Cell>
-                <XorVIcon value={subRef.unlimited} />
-              </Table.Cell>
-              <Table.Cell>{subRef.eu}</Table.Cell>
-              <Table.Cell>
-                <XorVIcon value={subRef.active} />
-              </Table.Cell>
-              <Table.Cell>{subRef.equivelentSub.name}</Table.Cell>
-              <Table.Cell>{subRef.price}</Table.Cell>
-              <Table.Cell>
-                <EditSubscriptionModal subRef={subRef} />
-                <Button
-                  id={subRef.id}
-                  name={subRef.name}
-                  color="red"
-                  onClick={handleDelete}
-                >
-                  <Icon name="delete" />
-                </Button>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </>
+      </div>
+      <div className="subMenu">
+        <span>
+          <Header as="h4">Näytä:</Header>
+        </span>
+        <span>
+          <Checkbox
+            label="Puheliittymät"
+            checked={showSubscriptions}
+            onClick={() => setShowSubscriptions(!showSubscriptions)}
+          />
+        </span>
+        <span>
+          <Checkbox
+            label="Nettiliittymät"
+            checked={showNetSubscriptions}
+            onClick={() => setShowNetSubscriptions(!showNetSubscriptions)}
+          />
+        </span>
+      </div>
+      {showSubscriptions && (
+        <SubTable
+          setFilterOperator={setFilterOperator}
+          opData={opData}
+          sortFunction={sortFunction}
+          setSortFunction={setSortFunction}
+          allSubscriptions={allSubscriptions}
+          handleDelete={handleDelete}
+        />
+      )}
+      {showNetSubscriptions && (
+        <NetSubTable
+          setNetFilterOperator={setNetFilterOperator}
+          allNetSubscriptions={allNetSubscriptions}
+          opData={opData}
+          handleNetDelete={handleNetDelete}
+
+        />
+      )}
+    </div>
   );
 };
 

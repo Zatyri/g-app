@@ -12,7 +12,6 @@ import {
   Segment,
 } from 'semantic-ui-react';
 
-
 export const XorVIcon = ({ value }) => {
   if (typeof value !== 'boolean') {
     return null;
@@ -88,7 +87,6 @@ export const FormInput = ({
     <Form.Field>
       <Form.Field label={label}></Form.Field>
       <Input
-        fluid
         disabled={disabled}
         name={name}
         type={type}
@@ -96,7 +94,7 @@ export const FormInput = ({
         onBlur={onBlur}
         value={value}
         placeholder={placeholder}
-        step={type === 'number' && '.01'}
+        step={type === 'number' ? '.01' : undefined}
       />
       {touched && error ? inputError(error) : null}
     </Form.Field>
@@ -124,11 +122,10 @@ export const FormRadio = ({ label, id, name, checked, onChange, disabled }) => {
 
 export const AddRemoveInput = ({ action, amount }) => {
   return (
-    <div className='flexRow addRemoveInputContainer'>
+    <div className="flexRow addRemoveInputContainer">
       <Button icon="minus" onClick={() => action('SUBTRACT')} />
-      <Label className='amount'>{amount}</Label>
-      <Button icon="add" onClick={ () => action('ADD')} />
+      <Label className="amount">{amount}</Label>
+      <Button icon="add" onClick={() => action('ADD')} />
     </div>
   );
 };
-

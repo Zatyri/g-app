@@ -13,7 +13,7 @@ const AdminMain = () => {
       case 'tarjous':
         return <OfferView />; 
       case 'liittyma':
-        return <SubscriptionView/>
+        return <SubscriptionView />
       default:
         return undefined;
     }
