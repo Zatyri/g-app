@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 
 import { Button, Modal } from 'semantic-ui-react';
 
-import { ADD_OFFER } from '../../../queries/subscription';
+import { ADD_OFFER, ADD_NET_OFFER } from '../../../queries/subscription';
 import AddOfferForm from './AddOfferForm';
 
 const AddOfferModal = () => {
@@ -11,6 +11,11 @@ const AddOfferModal = () => {
   const [addOffer] = useMutation(ADD_OFFER, {
     context: { scope: 'api://gappi/api/storeadmin' },
   });
+
+  const [addNetOffer] = useMutation(ADD_NET_OFFER, {
+    context: { scope: 'api://gappi/api/storeadmin' },
+  });
+  
 
   const handleAddOffer = async (values) => {
     try {
@@ -36,6 +41,30 @@ const AddOfferModal = () => {
     }
   };
 
+  const handleAddNetOffer = async (values) => {
+    try {
+      const result = await addNetOffer({
+        variables: { ...values },
+        update: (cache, { data }) => {
+          cache.modify({
+            fields: {
+              allNetSubscriptionsWithOffer: (existingFieldData) => {
+                const newFieldData = [...existingFieldData, data.addNetOffer];
+                return newFieldData;
+              },
+            },
+          });
+        },
+      });
+
+      setOpen(false);
+      return result;
+    } catch (error) {
+      window.alert(error);
+      setOpen(false);
+    }
+  }
+
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -45,7 +74,7 @@ const AddOfferModal = () => {
     >
       <Modal.Header>Lisää tarjous</Modal.Header>
       <Modal.Content>
-        <AddOfferForm handleAddOffer={handleAddOffer} />
+        <AddOfferForm handleAddOffer={handleAddOffer} handleAddNetOffer={handleAddNetOffer}/>
       </Modal.Content>
       <Modal.Actions>
         <Button

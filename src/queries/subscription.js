@@ -254,3 +254,11 @@ export const REMOVE_OFFER = gql`
   }
 `;
 
+export const REMOVE_NET_OFFER = gql`
+  mutation removeNetOffer($id: ID!) {
+    removeNetOffer(id: $id) {
+      id
+    }
+  }
+`;
+

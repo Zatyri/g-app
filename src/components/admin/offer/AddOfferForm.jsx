@@ -6,6 +6,7 @@ import { Button, Form, Header, Label } from 'semantic-ui-react';
 import { useQuery } from '@apollo/client';
 
 import {
+  ALL_ACTIVE_NET_SUBSCRIPTIONS,
   ALL_ACTIVE_SUBSCRIPTIONS,
   ALL_OPERATORS,
 } from '../../../queries/subscription';
@@ -19,13 +20,14 @@ import { OperatorLogo } from '../../utils/OperatorLogo';
 
 const validationSchema = new Yup.object().shape({
   id: Yup.string().required('Valitse liittymän nimi'),
+  type: Yup.string().required('Valitse puhe tai nettiliittymä'),
   offer: Yup.number().required('Syötä tarjoushinta'),
   offerLength: Yup.number().required('Syötä tarjouksen pituus'),
   oneTimeDiscount: Yup.number(),
   offerValue: Yup.number().min(0).max(5).required('Valitse tarjouksen luokka'),
 });
 
-const AddOfferForm = ({ handleAddOffer }) => {
+const AddOfferForm = ({ handleAddOffer, handleAddNetOffer }) => {
   const [selectedOperator, setSelectedOperator] = useState();
   const allOperators = useQuery(ALL_OPERATORS, {
     context: { scope: 'api://gappi/api/user' },
@@ -33,12 +35,16 @@ const AddOfferForm = ({ handleAddOffer }) => {
   const allActiveSubscription = useQuery(ALL_ACTIVE_SUBSCRIPTIONS, {
     context: { scope: 'api://gappi/api/user' },
   });
+  const allActiveNetSubscriptions = useQuery(ALL_ACTIVE_NET_SUBSCRIPTIONS, {
+    context: {scope: 'api://gappi/api/user'}
+  })
 
-  if (allOperators.loading || allActiveSubscription.loading) {
+
+  if (allOperators.loading || allActiveSubscription.loading || allActiveNetSubscriptions.loading) {
     return <Loading />;
   }
 
-  if (allOperators.error) {
+  if (allOperators.error || allActiveNetSubscriptions.error) {
     return <ErrorMessage error={allOperators.error} />;
   }
 
@@ -63,6 +69,7 @@ const AddOfferForm = ({ handleAddOffer }) => {
     <Formik
       initialValues={{
         id: undefined,
+        type: 'puhe',
         offer: '',
         offerLength: 12,
         bindingOffer: false,
@@ -73,11 +80,24 @@ const AddOfferForm = ({ handleAddOffer }) => {
       onSubmit={(values) => {
         values.offerLength = parseInt(values.offerLength);
         values.offerValue = parseInt(values.offerValue)
-        handleAddOffer(values);
+          
+        values.type === 'puhe' && handleAddOffer(values);
+        values.type === 'netti' && handleAddNetOffer(values);
       }}
     >
       {(props) => (
         <Form onSubmit={props.handleSubmit} id="addOfferForm">
+          <Form.Field
+            name="type"
+            label="Valse puhe tai nettiliittymä"
+            control="select"
+            value={props.values.type}
+            onChange={props.handleChange}
+            onBlur={props.handleBlur}
+          >
+            <option value='puhe'>puheliittymä</option>
+            <option value='netti'>nettiliittymä</option>            
+          </Form.Field>
           <Form.Field
             name="id"
             label="Valse liittymä"
@@ -86,7 +106,18 @@ const AddOfferForm = ({ handleAddOffer }) => {
             onBlur={props.handleBlur}
           >
             <option></option>
-            {allActiveSubscription.data.allActiveSubscriptions
+            {props.values.type === 'puhe' && allActiveSubscription.data.allActiveSubscriptions
+              .filter(
+                (subRef) =>
+                  selectedOperator === subRef.operator.id &&
+                  subRef.hasOffer !== true
+              )
+              .map((subRef) => (
+                <option key={subRef.id} value={subRef.id}>
+                  {subRef.name}
+                </option>
+              ))}
+               {props.values.type === 'netti' && allActiveNetSubscriptions.data.allActiveNetSubscriptions
               .filter(
                 (subRef) =>
                   selectedOperator === subRef.operator.id &&

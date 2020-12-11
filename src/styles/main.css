@@ -17,6 +17,10 @@ body {
   align-items: center;
 }
 
+ .flexTop {
+  align-items: flex-start !important;
+}
+
 .flexLeft {
   justify-content: flex-start !important;
 }
@@ -51,9 +55,7 @@ body {
   flex: 1;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin-left: 30%;
-  margin-right: 30%;
+  align-items: center;  
 }
 
 .placeholderContainer {
