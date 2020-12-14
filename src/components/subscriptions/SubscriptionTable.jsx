@@ -4,30 +4,41 @@ import { XorVIcon } from '../utils/FormHelpers';
 import OfferCardRow from './OfferCardRow';
 
 const SubscriptionTable = ({ subRef }) => {
-
+  console.log(subRef);
   return (
     <div className="subscriptionDetailContainer">
       <div>
-        <OfferCardRow
-          feature="Puhe"
-          value={subRef.talk}
-          suffix={subRef.talk !== 'Rajaton' && 'min'}
-        />
-        <OfferCardRow
-          feature="Viestit"
-          value={subRef.sms}
-          suffix={subRef.sms !== 'Rajaton' && 'kpl'}
-        />
+        {subRef.type && (
+          <OfferCardRow feature="Tekniikka" value={subRef.type} />
+        )}
+        {!subRef.type && (
+          <OfferCardRow
+            feature="Puhe"
+            value={subRef.talk}
+            suffix={subRef.talk !== 'Rajaton' && 'min'}
+          />
+        )}
+        {!subRef.type && (
+          <OfferCardRow
+            feature="Viestit"
+            value={subRef.sms}
+            suffix={subRef.sms !== 'Rajaton' && 'kpl'}
+          />
+        )}
         <OfferCardRow
           feature="Nettinopeus"
           value={subRef.speed}
           suffix="Mbit/s"
         />
-        <OfferCardRow
-          feature="Rajaton netti"
-          value={<XorVIcon value={subRef.unlimited} />}
-        />
+        {!subRef.type && (
+          <OfferCardRow
+            feature="Rajaton netti"
+            value={<XorVIcon value={subRef.unlimited} />}
+          />
+        )}
+        { !(subRef.type === "VDSL" || subRef.type === "ADSL" || subRef.type === "kaapeli" || subRef.type === "valokuitu") &&
         <OfferCardRow feature="EU data" value={subRef.eu} suffix="Gt/kk" />
+        } 
       </div>
       <div>
         <OfferCardRow feature="Tarjous" value={subRef.offer} suffix="€/kk" />

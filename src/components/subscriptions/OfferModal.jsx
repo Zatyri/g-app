@@ -4,6 +4,7 @@ import { Button, Modal } from 'semantic-ui-react';
 
 import { OperatorLogo } from '../utils/OperatorLogo';
 import CompareOffer from './CompareOffer';
+import CompareNetOffer from '../netsubscriptions/CompareNetOffer'
 import OfferCard from './OfferCard';
 import SubscriptionTable from './SubscriptionTable';
 
@@ -56,7 +57,7 @@ const OfferModal = ({ subRef, handleShoppingCart }) => {
           </Modal.Actions>
         </>
       ) : (
-        <CompareOffer offerSub={subRef} handleClose={handleClose} handleShoppingCart={handleShoppingCart} />
+        !subRef.type ? <CompareOffer offerSub={subRef} handleClose={handleClose} handleShoppingCart={handleShoppingCart} /> : <CompareNetOffer  offerSub={subRef} handleClose={handleClose} handleShoppingCart={handleShoppingCart}/>
       )}
     </Modal>
   );

@@ -124,6 +124,7 @@ td {
 .subscriptionDetailContainer {
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 .subscriptionDetailContainer div {
