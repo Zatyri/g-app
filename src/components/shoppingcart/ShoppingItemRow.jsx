@@ -6,22 +6,22 @@ import { AddRemoveInput } from '../utils/FormHelpers';
 import { OperatorLogo } from '../utils/OperatorLogo';
 
 const ShoppingItemRow = ({ item, editItemAmount }) => {
-
-
   const editItem = (action) => {
     editItemAmount(action, item.id);
   };
 
   const priceDifference = () => {
-    const current = parseInt(
-      item.current.offer ? item.current.offer : item.current.price
-    );
-    const offer = parseInt(item.offer.offer);
+    if(item.current) {
+      const current = parseInt(
+        item.current.offer ? item.current.offer : item.current.price
+      );
+      const offer = parseInt(item.offer.offer);
 
-    return (current - offer) * item.amount * 12;
+      return (current - offer) * item.amount * 12;
+    } else {
+      return null;
+    }
   };
-
-  
 
   return (
     <>
@@ -31,12 +31,14 @@ const ShoppingItemRow = ({ item, editItemAmount }) => {
         <OperatorLogo operator={item.offer.operator.name} />
         <div className="shoppingCartName">
           <div>{item.offer.name}</div>
-          <CompareOfferTable
-            currentSub={item.current}
-            offerSub={item.offer}
-            currentSubOffer={item.current.offer}
-            shoppingCart={true}            
-          />
+          {item.current && (
+            <CompareOfferTable
+              currentSub={item.current}
+              offerSub={item.offer}
+              currentSubOffer={item.current.offer}
+              shoppingCart={true}
+            />
+          )}
         </div>
         <span />
 

@@ -6,7 +6,6 @@ import ShoppingItemRow from './ShoppingItemRow';
 
 const ShoppingCart = ({ shoppingCart, setShoppingCart }) => {
   const [open, setOpen] = useState(false);
-  
 
   const editItemAmount = (action, itemID) => {
     const itemIndex = shoppingCart.findIndex(
@@ -42,21 +41,19 @@ const ShoppingCart = ({ shoppingCart, setShoppingCart }) => {
     }
   };
 
-
-
   const sortItems = (a, b) => {
-    if(a.offer.name < b.offer.name){
-      return 1
-    } else if (a.offer.name > b.offer.name){
-      return -1
+    if (a.offer.name < b.offer.name) {
+      return 1;
+    } else if (a.offer.name > b.offer.name) {
+      return -1;
     } else {
-      return 0
+      return 0;
     }
-  }
+  };
 
   return (
     <Modal
-    className='shoppingCartModal'
+      className="shoppingCartModal"
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
@@ -67,7 +64,7 @@ const ShoppingCart = ({ shoppingCart, setShoppingCart }) => {
         </div>
       }
     >
-      <Modal.Header >
+      <Modal.Header>
         <div className="flexRow">
           <Header as="h2">Ostoskori</Header>
           <Button
@@ -85,8 +82,8 @@ const ShoppingCart = ({ shoppingCart, setShoppingCart }) => {
             editItemAmount={editItemAmount}
           />
         ))}
-        <ShoppingCartCombined shoppingCart={shoppingCart}/>
-      </Modal.Content>     
+        <ShoppingCartCombined shoppingCart={shoppingCart} />
+      </Modal.Content>
       <Modal.Actions>
         <Button
           content="Tyhjennä"

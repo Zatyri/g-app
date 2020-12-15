@@ -14,10 +14,14 @@ const ShoppingCartCombined = ({ shoppingCart }) => {
   const combinedSavings = () => {
     let savings = 0;
     shoppingCart.forEach((itemRef) => {
+      if(itemRef.current){
       let itemRefSavings = itemRef.current.offer
         ? parseFloat(itemRef.current.offer) - parseFloat(itemRef.offer.offer)
         : parseFloat(itemRef.current.price) - parseFloat(itemRef.offer.offer);
       savings = savings + parseFloat(itemRefSavings) * itemRef.amount * 12;
+      } else {
+        savings = savings - parseFloat(itemRef.offer.offer) * itemRef.amount * 12
+      }
     });
     return savings.toFixed(2);
   };

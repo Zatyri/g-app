@@ -16,6 +16,17 @@ const OfferModal = ({ subRef, handleShoppingCart }) => {
     setOpen(false);
   };
 
+  const handleAddToShoppingCart = () => {
+    const newCartObject = {
+      id: subRef.id,
+      offer: subRef,
+      current: null,
+      amount: 1
+    };
+    handleShoppingCart('ADD', newCartObject);
+    handleClose();
+  }
+
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -53,6 +64,12 @@ const OfferModal = ({ subRef, handleShoppingCart }) => {
               icon="checkmark"
               onClick={() => setComparison(true)}
               positive
+            />
+            <Button 
+            content='Lisää koriin'
+            labelPosition='right'
+            icon='plus'
+            onClick={handleAddToShoppingCart}            
             />
           </Modal.Actions>
         </>
