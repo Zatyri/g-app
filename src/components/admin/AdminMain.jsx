@@ -3,6 +3,7 @@ import { Menu } from 'semantic-ui-react';
 
 import NavButton from '../navbar/NavButton';
 import OfferView from './offer/OfferView';
+import SAView from './serviceagreement/SAView';
 import SubscriptionView from './subscriptions/SubscriptionView';
 
 const AdminMain = () => {
@@ -14,6 +15,8 @@ const AdminMain = () => {
         return <OfferView />; 
       case 'liittyma':
         return <SubscriptionView />
+      case 'huolenpito':
+        return <SAView />
       default:
         return undefined;
     }
@@ -27,6 +30,12 @@ const AdminMain = () => {
     <>
       <Menu size="mini" style={{ marginTop: '2px' }}>
         <Menu.Menu position="right">
+          <NavButton 
+          link='/admin'
+          name='huolenpito'
+          text='Huolenpitohallinta'
+          handleClick={handleClick}
+          />
           <NavButton
             link="/admin"
             name="liittyma"

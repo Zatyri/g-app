@@ -14,10 +14,10 @@ export const SUBSCRIPTION_INFO = gql`
     unlimited
     eu
     hasOffer
-    price    
+    price
     equivelentSub {
       name
-    }    
+    }
     id
   }
 `;
@@ -43,7 +43,7 @@ export const SUBSCRIPTION_INFO_WITH_OFFER = gql`
     oneTimeDiscount
     equivelentSub {
       name
-    }    
+    }
     id
   }
 `;
@@ -60,11 +60,10 @@ export const NET_SUBSCRIPTION_INFO = gql`
     speed
     eu
     hasOffer
-    price      
+    price
     id
   }
 `;
-
 
 export const NET_SUBSCRIPTION_INFO_WITH_OFFER = gql`
   fragment NetSubscriptionInfoWithOffer on NetSubscription {
@@ -83,6 +82,22 @@ export const NET_SUBSCRIPTION_INFO_WITH_OFFER = gql`
     bindingOffer
     offerValue
     oneTimeDiscount
+    id
+  }
+`;
+
+export const SA_INFO = gql`
+  fragment ServiceAgreementInfo on ServiceAgreement {
+    type
+    name
+    antiVirus
+    antiVirusAmount: VPN
+    VPNAmount
+    cloud
+    cloudLimit
+    office365
+    support
+    remoteFix
     id
   }
 `;
