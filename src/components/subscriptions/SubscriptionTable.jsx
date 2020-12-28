@@ -3,8 +3,7 @@ import React from 'react';
 import { XorVIcon } from '../utils/FormHelpers';
 import OfferCardRow from './OfferCardRow';
 
-const SubscriptionTable = ({ subRef }) => {
-  console.log(subRef);
+const SubscriptionTable = ({ subRef }) => {  
   return (
     <div className="subscriptionDetailContainer">
       <div>

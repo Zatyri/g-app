@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-const OfferCardRow = ({feature, value, suffix}) => {
+const OfferCardRow = ({ feature, value, suffix }) => {
   let styles = {};
   switch (feature) {
     case 'Tarjous':
@@ -10,6 +10,9 @@ const OfferCardRow = ({feature, value, suffix}) => {
       styles = { textDecoration: 'line-through', color: 'grey' };
       break;
     case 'Lahjakortti':
+      styles = { fontSize: '2.5em' };
+      break;
+    case 'Kuukausihinta:':
       styles = { fontSize: '2.5em' };
       break;
     default:
@@ -28,5 +31,4 @@ const OfferCardRow = ({feature, value, suffix}) => {
   );
 };
 
-
-export default OfferCardRow
+export default OfferCardRow;

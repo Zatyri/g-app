@@ -12,6 +12,7 @@ import AdminMain from './components/admin/AdminMain';
 import ShoppingCart from './components/shoppingcart/ShoppingCart';
 import { getUserRole } from './authentication/accessValidation';
 import NetSubMain from './components/netsubscriptions/NetSubMain';
+import SAMain from './components/serviceAgreement/SAMain';
 
 const App = () => {
   const [userRole, setUserRole] = useState(null);
@@ -72,6 +73,9 @@ const App = () => {
         </Route>
         <Route path="/nettiliittymat">
           <NetSubMain handleShoppingCart={handleShoppingCart} />
+        </Route>
+        <Route path="/tietoturva">
+          <SAMain handleShoppingCart={handleShoppingCart} />
         </Route>
         <Route path="/admin">
           <AdminMain />
