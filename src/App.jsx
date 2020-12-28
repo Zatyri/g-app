@@ -59,8 +59,7 @@ const App = () => {
         setActivePage={setActivePage}
         userType={userRole}
         logout={logout}
-      />
-
+      />      
       {activePage !== 'admin' && (
         <ShoppingCart
           shoppingCart={shoppingCart}

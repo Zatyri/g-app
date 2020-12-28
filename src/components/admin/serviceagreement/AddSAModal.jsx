@@ -28,6 +28,8 @@ const AddSAModal = () => {
     office365,
     support,
     remoteFix,
+    length,
+    price
   }) => {
     try {
       await addServiceAgreement({
@@ -43,6 +45,8 @@ const AddSAModal = () => {
           office365,
           support,
           remoteFix,
+          length,
+          price: price.toString()
         },
         update: (cache, { data }) => {
           cache.modify({

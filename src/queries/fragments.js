@@ -91,7 +91,8 @@ export const SA_INFO = gql`
     type
     name
     antiVirus
-    antiVirusAmount: VPN
+    antiVirusAmount
+    VPN
     VPNAmount
     cloud
     cloudLimit
@@ -99,5 +100,7 @@ export const SA_INFO = gql`
     support
     remoteFix
     id
+    length
+    price
   }
 `;

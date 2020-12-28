@@ -25,9 +25,35 @@ const SAView = () => {
     return <ErrorMessage error={error.message} />;
   }
 
-  const handleDelete = () => {
-    console.log('not implemented');
-  };
+  const handleDelete = async (_, {id,name}) => {
+    const confirmation = window.confirm(`Poistetaanko huolenpito ${name}`);
+    if (!confirmation) {
+      return null;
+    }
+    try {
+      await deleteServiceAgreement({
+        variables: {id:id},
+        update: (cache, { data }) => {
+          const cacheId = cache.identify(data.deleteServiceAgreement);          
+          cache.modify({
+            fields: {
+              allServiceAgreements: (existingFieldData) => {
+                console.log(existingFieldData);
+                const newFieldData = existingFieldData.filter(
+                  (subRef) => cacheId !== (subRef.__ref || `${subRef.__typename}:${subRef.id}`)                  
+                );
+
+                return newFieldData;
+              },
+            },
+          });
+        }
+      })      
+    } catch (error) {
+      window.alert(error.message);
+    }
+  }
+
 
   return (
     <div style={{ margin: '2em' }}>

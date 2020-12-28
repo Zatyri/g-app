@@ -96,7 +96,7 @@ export const FormInput = ({
         placeholder={placeholder}
         step={type === 'number' ? '.01' : undefined}
       />
-      {touched && error ? inputError(error) : null}
+      <div>{touched && error ? inputError(error) : null}</div>
     </Form.Field>
   );
 };

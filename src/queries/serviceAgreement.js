@@ -23,6 +23,8 @@ export const ADD_SERVICE_AGREEMENT = gql`
     $office365: Boolean!
     $support: Boolean!
     $remoteFix: Boolean!
+    $length: Int!
+    $price: String!
   ) {
     addServiceAgreement(
       type: $type
@@ -36,6 +38,8 @@ export const ADD_SERVICE_AGREEMENT = gql`
       office365: $office365
       support: $support
       remoteFix: $remoteFix
+      length: $length
+      price: $price
     ) {
       ...ServiceAgreementInfo
     }

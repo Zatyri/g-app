@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Header, Icon, Table } from 'semantic-ui-react';
 import { XorVIcon } from '../../utils/FormHelpers';
+import EditSAModal from './EditSAModal';
 
 const SATable = ({ allServiceAgreements, handleDelete }) => {
   if (!allServiceAgreements) {
@@ -28,6 +29,8 @@ const SATable = ({ allServiceAgreements, handleDelete }) => {
             <Table.HeaderCell>Office 365</Table.HeaderCell>
             <Table.HeaderCell>Puhelintuki</Table.HeaderCell>
             <Table.HeaderCell>Remote Fix</Table.HeaderCell>
+            <Table.HeaderCell>Pituus</Table.HeaderCell>
+            <Table.HeaderCell>Hinta</Table.HeaderCell>
             <Table.HeaderCell>Muokkaa</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -53,10 +56,10 @@ const SATable = ({ allServiceAgreements, handleDelete }) => {
               <Table.Cell>
                 <XorVIcon value={SARef.remoteFix} />
               </Table.Cell>
+              <Table.Cell>{SARef.length}</Table.Cell>
+              <Table.Cell>{SARef.price}</Table.Cell>
               <Table.Cell>
-                {
-                  //<EditSubscriptionModal subRef={subRef} />
-                }
+                {<EditSAModal SARef={SARef} />}
                 <Button
                   id={SARef.id}
                   name={SARef.name}

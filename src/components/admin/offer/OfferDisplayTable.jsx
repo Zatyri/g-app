@@ -31,7 +31,7 @@ const OfferDisplayTable = ({ operator, subscriptions }) => {
             fields: {
               allSubscriptionsWithOffer: (existingFieldData) => {              
                 const newFieldData = existingFieldData.filter(
-                  (subRef) => cacheId !== (subRef.__ref || `Subscription:${subRef.id}`)
+                  (subRef) => cacheId !== (subRef.__ref || `${subRef.__typename}:${subRef.id}`)
                 );
                 return newFieldData;
               },
@@ -60,7 +60,7 @@ const OfferDisplayTable = ({ operator, subscriptions }) => {
             fields: {
               allNetSubscriptionsWithOffer: (existingFieldData) => {                         
                 const newFieldData = existingFieldData.filter(                  
-                  (subRef) => cacheId !== (subRef.__ref || `NetSubscription:${subRef.id}`)                  
+                  (subRef) => cacheId !== (subRef.__ref || `${subRef.__typename}:${subRef.id}`)                  
                 );              
                 return newFieldData;
               },

@@ -1,7 +1,9 @@
-import React from 'react';
 import { Formik } from 'formik';
+import React from 'react';
 import * as Yup from 'yup';
-import { Form, Header, Label } from 'semantic-ui-react';
+
+import { Form, Header } from 'semantic-ui-react';
+
 import { FormInput, FormRadio } from '../../utils/FormHelpers';
 
 const validationSchema = new Yup.object().shape({
@@ -22,40 +24,38 @@ const validationSchema = new Yup.object().shape({
   price: Yup.number().required('Hinta puuttuu'),
 });
 
-const AddSAForm = ({ handleAddServiceAgreement }) => {
-
+const EditSAForm = ({handleUpdateSA, SARef}) => {
   return (
     <Formik
       initialValues={{
-        type: '',
-        name: '',
-        antiVirus: 'McAfee Livesafe',
-        antiVirusAmount: 50,
-        VPN: true,
-        VPNAmount: 5,
-        cloud: 'Jotta cloud',
-        cloudLimit: 'Rajaton',
-        office365: false,
-        support: true,
-        remoteFix: true,
-        length: undefined,
-        price: undefined,
+        type: SARef.type,
+        name: SARef.name,
+        antiVirus: SARef.antiVirus,
+        antiVirusAmount: SARef.antiVirusAmount,
+        VPN: SARef.VPN,
+        VPNAmount: SARef.VPNAmount,
+        cloud: SARef.cloud,
+        cloudLimit: SARef.cloudLimit,
+        office365: SARef.office365,
+        support: SARef.support,
+        remoteFix: SARef.remoteFix,
+        length: SARef.length,
+        price: SARef.price,
       }}
       validationSchema={validationSchema}
-      onSubmit={async (values) => {
-        console.log(values);
-        await handleAddServiceAgreement(values)
+      onSubmit={async (values) => {      
+        await handleUpdateSA({...values, id: SARef.id})
       }}
     >
       {(props) => (
-        <Form onSubmit={props.handleSubmit} id="addSAForm">
+        <Form onSubmit={props.handleSubmit} id="editSAForm">
           <Header as="h2">Huolenpitopalvelu</Header>
           <Form.Group>
             <FormInput
               label="Tuotekoodi"
               name="type"
               type="text"
-              placeholder="tuotekoodi"
+              value={props.values.type}
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               error={props.errors.type}
@@ -65,7 +65,7 @@ const AddSAForm = ({ handleAddServiceAgreement }) => {
               label="Nimi"
               name="name"
               type="text"
-              placeholder="nimi"
+              value={props.values.name}
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               error={props.errors.name}
@@ -77,7 +77,7 @@ const AddSAForm = ({ handleAddServiceAgreement }) => {
               label="Tietoturva"
               name="antiVirus"
               type="text"
-              placeholder={props.values.antiVirus}
+              value={props.values.antiVirus}
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               error={props.errors.antiVirus}
@@ -87,7 +87,7 @@ const AddSAForm = ({ handleAddServiceAgreement }) => {
               label="Tietoturva lisenssit"
               name="antiVirusAmount"
               type="number"
-              placeholder={props.values.antiVirusAmount}
+              value={props.values.antiVirusAmount}
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               error={props.errors.antiVirusAmount}
@@ -107,7 +107,7 @@ const AddSAForm = ({ handleAddServiceAgreement }) => {
               label="VPN lisenssit"
               name="VPNAmount"
               type="number"
-              placeholder={props.values.VPNAmount}
+              value={props.values.VPNAmount}
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               error={props.errors.VPNAmount}
@@ -119,7 +119,7 @@ const AddSAForm = ({ handleAddServiceAgreement }) => {
               label="Pilvipalvelu"
               name="cloud"
               type="text"
-              placeholder={props.values.cloud}
+              value={props.values.cloud}
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               error={props.errors.cloud}
@@ -129,7 +129,7 @@ const AddSAForm = ({ handleAddServiceAgreement }) => {
               label="Pilvipalvelu rajoitus"
               name="cloudLimit"
               type="text"
-              placeholder={props.values.cloudLimit}
+              value={props.values.cloudLimit}
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               error={props.errors.cloudLimit}
@@ -163,7 +163,8 @@ const AddSAForm = ({ handleAddServiceAgreement }) => {
           <FormInput
               label="Pituus"
               name="length"
-              type="number"              
+              type="number"   
+              value={props.values.length}           
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               error={props.errors.length}
@@ -172,7 +173,8 @@ const AddSAForm = ({ handleAddServiceAgreement }) => {
              <FormInput
               label="Hinta"
               name="price"
-              type="number"              
+              type="number"       
+              value={props.values.price}       
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               error={props.errors.price}
@@ -182,7 +184,7 @@ const AddSAForm = ({ handleAddServiceAgreement }) => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default AddSAForm;
+export default EditSAForm
