@@ -42,7 +42,7 @@ const EditSAModal = (props) => {
           support,
           remoteFix,
           length,
-          price,
+          price: price.toString(),
         },
       });
       setOpen(false);

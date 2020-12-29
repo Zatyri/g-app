@@ -59,7 +59,7 @@ const SATable = ({ SARef }) => {
             />
         </div>
       </div>
-      <div className="subscriptionDetailContainer">
+      <div className="subscriptionDetailContainer" style={{width: '50%', margin: 'auto'}}>
         <OfferCardRow
           feature="Kuukausihinta:"
           value={(SARef.price / SARef.length).toFixed(2)}

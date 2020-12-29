@@ -8,6 +8,8 @@ const CompareSubRow = ({
   suffix,
   unlimitedDataCurrent,
   unlimitedDataOffer,
+  offerBetter,
+  
 }) => {
   const showStar = () => {
     switch (feature) {
@@ -55,6 +57,20 @@ const CompareSubRow = ({
         }
       case 'Ei määräaikaa':
         return true;
+      case 'Tietoturva':
+        return offerBetter ? true : false;
+      case 'Tietoturva lisenssit':
+        return current < compareTo ? true : false;
+      case 'VPN lisenssit':
+        return current < compareTo ? true : false;
+      case 'VPN':
+        return offerBetter ? true : false;
+      case 'Rajaton pilvipalvelu':
+        return current ? true : false;
+      case 'Ilmainen puhelintuki':
+        return current ? true : false;
+      case 'Hinta / kuukausi':        
+        return current >= compareTo ? true : false;
       default:
         return false;
     }
@@ -87,7 +103,9 @@ const CompareSubRow = ({
       )}
       <p>{feature}</p>
       <span />
-      <div className={`compareItem ${typeof compareTo === 'object' && 'center'}`}>
+      <div
+        className={`compareItem ${typeof compareTo === 'object' && 'center'}`}
+      >
         {compareTo}
         <span className="small"> {compareTo !== 'Rajaton' && suffix}</span>
       </div>

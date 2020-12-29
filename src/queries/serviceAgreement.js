@@ -61,6 +61,8 @@ export const EDIT_SERVICE_AGREEMENT = gql`
     $office365: Boolean
     $support: Boolean
     $remoteFix: Boolean
+    $length: Int!
+    $price: String!
   ) {
     modifyServiceAgreement(
       id: $id
@@ -75,6 +77,8 @@ export const EDIT_SERVICE_AGREEMENT = gql`
       office365: $office365
       support: $support
       remoteFix: $remoteFix
+      length: $length
+      price: $price
     ) {
       ...ServiceAgreementInfo
     }

@@ -9,6 +9,7 @@ const ShoppingItemRow = ({ item, editItemAmount }) => {
   const editItem = (action) => {
     editItemAmount(action, item.id);
   };
+  
 
   const priceDifference = () => {
     if(item.current) {

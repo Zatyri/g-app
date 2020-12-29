@@ -82,6 +82,7 @@ export const FormInput = ({
   touched,
   disabled,
   placeholder,
+  wholeNumbers
 }) => {
   return (
     <Form.Field>
@@ -94,7 +95,7 @@ export const FormInput = ({
         onBlur={onBlur}
         value={value}
         placeholder={placeholder}
-        step={type === 'number' ? '.01' : undefined}
+        step={type === 'number' && !wholeNumbers ? '.01' : undefined}
       />
       <div>{touched && error ? inputError(error) : null}</div>
     </Form.Field>

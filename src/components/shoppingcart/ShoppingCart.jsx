@@ -3,6 +3,7 @@ import { Button, Header, Modal } from 'semantic-ui-react';
 
 import ShoppingCartCombined from './ShoppingCartCombined';
 import ShoppingItemRow from './ShoppingItemRow';
+import ShoppingItemRowSA from './ShoppingItemRowSA';
 
 const ShoppingCart = ({ shoppingCart, setShoppingCart }) => {
   const [open, setOpen] = useState(false);
@@ -75,13 +76,23 @@ const ShoppingCart = ({ shoppingCart, setShoppingCart }) => {
         </div>
       </Modal.Header>
       <Modal.Content>
-        {shoppingCart.sort(sortItems).map((itemRef) => (
-          <ShoppingItemRow
-            key={itemRef.id}
-            item={itemRef}
-            editItemAmount={editItemAmount}
-          />
-        ))}
+        {shoppingCart
+          .sort(sortItems)
+          .map((itemRef) =>
+            itemRef.offer.__typename !== 'ServiceAgreement' ? (
+              <ShoppingItemRow
+                key={itemRef.id}
+                item={itemRef}
+                editItemAmount={editItemAmount}
+              />
+            ) : (
+              <ShoppingItemRowSA
+                key={itemRef.id}
+                item={itemRef}
+                editItemAmount={editItemAmount}
+              />
+            )
+          )}
         <ShoppingCartCombined shoppingCart={shoppingCart} />
       </Modal.Content>
       <Modal.Actions>

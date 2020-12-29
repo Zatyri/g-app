@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'semantic-ui-react';
+import { Icon, Image, Label } from 'semantic-ui-react';
 import {
   dnaLogo as dnaLogoSmall,
   elisaLogo as elisaLogoSmall,
@@ -35,6 +35,15 @@ export const OperatorLogo = ({ operator, size }) => {
           wrapped
         />
       );
+      case 'muu':
+        return (          
+          <Label> <Icon
+            name='shield'
+            size='huge'
+            alt="Muu"          
+          /> Muu
+          </Label>
+        );
     default:
       return null;
   }
