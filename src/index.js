@@ -16,8 +16,11 @@ import { setContext } from 'apollo-link-context';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { getAccessToken } from './authentication/aquireToken';
 
-const authLink = setContext(async (_, { scope, headers }) => {
-  const accessToken = await getAccessToken(scope);
+const authLink = setContext(async (_, { scope, headers }) => {  
+  
+  const accessToken = await getAccessToken(scope);  
+  
+  
 
   return {
     headers: {

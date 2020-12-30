@@ -14,7 +14,7 @@ const SubscriptMain = ({ handleShoppingCart }) => {
     return <Loading />;
   }
 
-  if (error) {
+  if (error) {     
     return <ErrorMessage error={error} />;
   }
 
