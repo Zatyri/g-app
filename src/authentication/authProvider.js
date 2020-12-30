@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'development') {
   redirectUri = 'http://localhost:3000/';
 }
 if (process.env.NODE_ENV === 'production') {
-  redirectUri = 'http://localhost:4000/';
+  redirectUri = 'https://gappi.herokuapp.com';
 }
 
 // Msal Configurations
