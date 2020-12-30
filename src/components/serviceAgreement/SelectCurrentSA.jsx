@@ -55,16 +55,16 @@ const SelectCurrentSA = ({ operators, handleSelect, handleClose }) => {
         <Formik
           initialValues={{
             antiVirus: true,
-            antiVirusAmount: undefined,
+            antiVirusAmount: 6,
             VPN: false,
             VPNAmount: undefined,
             monthlyPayment: true,
-            price: undefined,
+            price: 6.90,
           }}
           validationSchema={validationSchema}
           onSubmit={(values) => {
             if(selectedOperator){
-            handleSelect({...values, operator: selectedOperator});
+            handleSelect({...values, operator: selectedOperator,});
             } else {
               window.alert('Valitse operaattori')
             }
@@ -82,7 +82,7 @@ const SelectCurrentSA = ({ operators, handleSelect, handleClose }) => {
                 />
                 <FormInput
                   label="Tietoturva lisenssit"
-                  placeholder="Tietoturva lisenssit"
+                  value={props.values.antiVirusAmount}
                   type="number"
                   name="antiVirusAmount"
                   disabled={!props.values.antiVirus}
@@ -124,7 +124,7 @@ const SelectCurrentSA = ({ operators, handleSelect, handleClose }) => {
                 />
                 <FormInput
                   label="Hinta"
-                  placeholder="Hinta"
+                  value={props.values.price}
                   type="number"
                   name="price"                  
                   onChange={props.handleChange}

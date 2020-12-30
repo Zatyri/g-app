@@ -40,7 +40,14 @@ const CompareSA = ({ offer, handleClose, handleShoppingCart }) => {
   };
 
   const handleAddToShoppingCart = () => {
-    console.log('not implemented');
+    const newCartObject = {
+      id: offer.id.concat(currentSA.id),
+      offer: offer,
+      current: currentSA,
+      amount: amount,
+    }    
+    handleShoppingCart('ADD', newCartObject);
+    handleClose();
   }
 
   const handleAmount = (action) => {

@@ -5,6 +5,7 @@ import { XorVIcon } from '../utils/FormHelpers';
 import { OperatorLogo } from '../utils/OperatorLogo';
 
 const CompareSATable = ({ offerSA, currentSA, shoppingCart }) => {
+  
   return (
     <>
       <div
@@ -69,12 +70,21 @@ const CompareSATable = ({ offerSA, currentSA, shoppingCart }) => {
           current={<XorVIcon value={false} />}
           compareTo={<XorVIcon value={offerSA.support} />}
         />
+        { currentSA.monthlyPayment ? 
         <CompareSubRow
           feature="Hinta / kuukausi"
           suffix="€/kk"
           current={currentSA.price.toFixed(2)}
           compareTo={(offerSA.price / offerSA.length).toFixed(2)}
         />
+        :
+        <CompareSubRow
+        feature="Hinta / vuosi"
+        suffix="€"
+        current={currentSA.price.toFixed(2)}
+        compareTo={((offerSA.price / offerSA.length) * 12).toFixed(2)}
+      />
+        }
       </div>
     </>
   );

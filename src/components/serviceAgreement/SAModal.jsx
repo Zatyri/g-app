@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 import SATable from './SATable';
-import { XorVIcon } from '../utils/FormHelpers';
 import SACard from './SACard';
 import CompareSA from './CompareSA';
 
 const SAModal = ({ SARef, handleShoppingCart }) => {
   const [open, setOpen] = useState(false);
   const [comparison, setComparison] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleAddToShoppingCart = () => {
     const newCartObject = {
@@ -32,7 +35,16 @@ const SAModal = ({ SARef, handleShoppingCart }) => {
     >
       {!comparison ? (
         <>
-          <Modal.Header>{SARef.name}</Modal.Header>
+          <Modal.Header>
+            <div className="flexRow">
+              <div className="offerModalHeader">{SARef.name}</div>
+              <Button
+                className="closeButton"
+                onClick={() => setOpen(false)}
+                icon="x"
+              />
+            </div>
+          </Modal.Header>
           <Modal.Content>
             <Modal.Description>
               <SATable SARef={SARef} />
@@ -54,7 +66,13 @@ const SAModal = ({ SARef, handleShoppingCart }) => {
             />
           </Modal.Actions>
         </>
-      ) : <CompareSA offer={SARef} handleClose={setOpen} handleShoppingCart={handleShoppingCart} />}
+      ) : (
+        <CompareSA
+          offer={SARef}
+          handleClose={handleClose}
+          handleShoppingCart={handleShoppingCart}
+        />
+      )}
     </Modal>
   );
 };

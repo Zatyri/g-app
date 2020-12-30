@@ -36,6 +36,8 @@ const App = () => {
     client.resetStore();
   };
 
+ 
+
 
 
   const handleShoppingCart = (action, item) => {

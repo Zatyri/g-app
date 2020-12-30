@@ -16,12 +16,19 @@ const ShoppingCartCombined = ({ shoppingCart }) => {
 
   const combinedSavings = () => {
     let savings = 0;
+
     shoppingCart.forEach((itemRef) => {
-      if (itemRef.current) {
+      if(itemRef.current.monthlyPayment === false){
+       
+      }
+      else if (itemRef.current) {
         let itemRefSavings = itemRef.current.offer
           ? parseFloat(itemRef.current.offer) - parseFloat(itemRef.offer.offer)
-          : parseFloat(itemRef.current.price) - parseFloat(itemRef.offer.offer);
-        savings = savings + parseFloat(itemRefSavings) * itemRef.amount * 12;
+          : parseFloat(itemRef.current.price) -
+            (itemRef.offer.__typename !== 'ServiceAgreement'
+              ? parseFloat(itemRef.offer.offer)
+              : parseFloat(itemRef.offer.price) / itemRef.offer.length);
+        savings = savings + parseFloat(itemRefSavings) * itemRef.amount * 12;        
       } else {
         savings =
           savings -

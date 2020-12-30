@@ -39,7 +39,7 @@ export const OperatorLogo = ({ operator, size }) => {
         return (          
           <Label> <Icon
             name='shield'
-            size='huge'
+            size='big'
             alt="Muu"          
           /> Muu
           </Label>
